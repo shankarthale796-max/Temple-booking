@@ -1,0 +1,205 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Temple Thursday Annadhanam Booking</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #f4f6f9; margin: 0; padding: 20px; color: #333; }
+        .container { max-width: 800px; margin: 0 auto; background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        h1 { text-align: center; color: #d9534f; margin-bottom: 5px; }
+        .sub-heading { text-align: center; color: #666; margin-bottom: 20px; }
+        .admin-btn { text-align: right; margin-bottom: 10px; }
+        .admin-btn button { background: #333; color: #fff; border: none; padding: 8px 12px; border-radius: 4px; cursor: pointer; }
+        .calendar-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 15px; margin-top: 20px; }
+        .card { border: 1px solid #ddd; border-radius: 6px; padding: 15px; background: #fafafa; position: relative; }
+        .card.booked { border-left: 5px solid #d9534f; }
+        .card.available { border-left: 5px solid #5cb85c; }
+        .badge { display: inline-block; padding: 3px 8px; border-radius: 12px; font-size: 0.8em; color: #fff; font-weight: bold; margin-bottom: 8px; }
+        .badge.booked { background-color: #d9534f; }
+        .badge.available { background-color: #5cb85c; }
+        .btn-book { display: block; width: 100%; margin-top: 10px; background: #5cb85c; color: white; border: none; padding: 8px; border-radius: 4px; cursor: pointer; font-weight: bold; }
+        .btn-delete { background: #d9534f; color: white; border: none; padding: 5px 8px; border-radius: 4px; cursor: pointer; margin-top: 8px; }
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); justify-content: center; align-items: center; z-index: 100; }
+        .modal-content { background: white; padding: 20px; border-radius: 8px; width: 90%; max-width: 400px; }
+        .modal-content input, .modal-content textarea { width: 100%; margin-bottom: 12px; padding: 8px; box-sizing: border-box; }
+        .modal-actions { display: flex; justify-content: space-between; margin-top: 10px; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="admin-btn">
+        <button id="toggleAdminBtn" onclick="toggleAdmin()">Admin Login</button>
+    </div>
+    <h1>🛕 Temple Thursday Annadhanam</h1>
+    <p class="sub-heading">Scan, check available Thursdays, and sponsor food distribution.</p>
+    
+    <div id="calendar" class="calendar-grid">Loading Thursdays...</div>
+</div>
+
+<div id="bookingModal" class="modal">
+    <div class="modal-content">
+        <h3>Book Thursday Annadhanam</h3>
+        <p id="modalDateDisplay" style="font-weight: bold; color: #d9534f;"></p>
+        <form id="bookingForm" onsubmit="submitBooking(event)">
+            <input type="hidden" id="selectedDate">
+            <label>Full Name:</label>
+            <input type="text" id="devoteeName" required placeholder="Enter your name">
+            
+            <label>Phone Number:</label>
+            <input type="tel" id="phoneNumber" required placeholder="10-digit mobile number">
+            
+            <label>Food Details / Menu:</label>
+            <textarea id="foodType" rows="3" required placeholder="e.g., Puri Bhaji, Dal Rice, Sweets"></textarea>
+            
+            <div class="modal-actions">
+                <button type="button" onclick="closeModal()">Cancel</button>
+                <button type="submit" style="background: #5cb85c; color: white; border: none; padding: 8px 15px; border-radius: 4px;">Confirm Booking</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    // Your exact Supabase Database Keys
+    const SUPABASE_URL = "https://tkftorwnoadfsvknldxw.supabase.co";
+    const SUPABASE_KEY = "sb_publishable_5TGMP5zI5l4anJKhE5CxdQ_zqrHRCmC";
+    
+    // Set your admin password below (Change 'admin123' to whatever password you want)
+    const ADMIN_PASSWORD = "admin123";
+
+    const db = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+    let isAdmin = false;
+
+    function getUpcomingThursdays(count = 52) {
+        const thursdays = [];
+        let date = new Date();
+        while (date.getDay() !== 4) {
+            date.setDate(date.getDate() + 1);
+        }
+        for (let i = 0; i < count; i++) {
+            thursdays.push(date.toISOString().split('T')[0]);
+            date.setDate(date.getDate() + 7);
+        }
+        return thursdays;
+    }
+
+    async function loadCalendar() {
+        const calendarEl = document.getElementById('calendar');
+        calendarEl.innerHTML = "Loading...";
+
+        const { data: bookings, error } = await db.from('thursday_bookings').select('*');
+        if (error) { 
+            console.error(error); 
+            calendarEl.innerHTML = "Error loading data.";
+            return; 
+        }
+
+        const bookingMap = {};
+        if (bookings) {
+            bookings.forEach(b => { bookingMap[b.thursday_date] = b; });
+        }
+
+        const thursdays = getUpcomingThursdays();
+        calendarEl.innerHTML = "";
+
+        thursdays.forEach(dateStr => {
+            const booked = bookingMap[dateStr];
+            const card = document.createElement('div');
+            card.className = `card ${booked ? 'booked' : 'available'}`;
+            
+            let content = `<strong>🗓 ${dateStr}</strong><br>`;
+            if (booked) {
+                content += `<span class="badge booked">Booked</span><br>`;
+                content += `<p style="margin: 5px 0;"><strong>Devotee:</strong> ${booked.devotee_name}<br>`;
+                content += `<strong>Food:</strong> ${booked.food_type}<br>`;
+                
+                if (isAdmin) {
+                    content += `<strong>Phone:</strong> ${booked.phone_number}</p>`;
+                    content += `<button class="btn-delete" onclick="deleteBooking(${booked.id})">Delete Entry</button>`;
+                } else {
+                    content += `<strong>Phone:</strong> ••••••••••</p>`;
+                }
+            } else {
+                content += `<span class="badge available">Available</span><br>`;
+                content += `<button class="btn-book" onclick="openModal('${dateStr}')">Book This Thursday</button>`;
+            }
+            
+            card.innerHTML = content;
+            calendarEl.appendChild(card);
+        });
+    }
+
+    function toggleAdmin() {
+        if (!isAdmin) {
+            const pwd = prompt("Enter Master Admin Password:");
+            if (pwd === ADMIN_PASSWORD) {
+                isAdmin = true;
+                document.getElementById('toggleAdminBtn').innerText = "Logout Admin";
+                alert("Admin Mode Active!");
+                loadCalendar();
+            } else if (pwd !== null) {
+                alert("Incorrect Password!");
+            }
+        } else {
+            isAdmin = false;
+            document.getElementById('toggleAdminBtn').innerText = "Admin Login";
+            loadCalendar();
+        }
+    }
+
+    function openModal(dateStr) {
+        document.getElementById('selectedDate').value = dateStr;
+        document.getElementById('modalDateDisplay').innerText = dateStr;
+        document.getElementById('bookingModal').style.display = 'flex';
+    }
+
+    function closeModal() {
+        document.getElementById('bookingModal').style.display = 'none';
+        document.getElementById('bookingForm').reset();
+    }
+
+    async function submitBooking(event) {
+        event.preventDefault();
+        const dateStr = document.getElementById('selectedDate').value;
+        const name = document.getElementById('devoteeName').value;
+        const phone = document.getElementById('phoneNumber').value;
+        const food = document.getElementById('foodType').value;
+
+        const { data, error } = await db.from('thursday_bookings').insert([
+            { thursday_date: dateStr, devotee_name: name, phone_number: phone, food_type: food }
+        ]);
+
+        if (error) {
+            alert("Error booking date: " + error.message);
+        } else {
+            alert("Booking Confirmed for " + dateStr + "!");
+            sendWhatsAppGroupNotification(dateStr, name, phone, food);
+            closeModal();
+            loadCalendar();
+        }
+    }
+
+    async function deleteBooking(id) {
+        if (confirm("Are you sure you want to remove this booking?")) {
+            const { error } = await db.from('thursday_bookings').delete().eq('id', id);
+            if (error) {
+                alert("Delete failed: " + error.message);
+            } else {
+                loadCalendar();
+            }
+        }
+    }
+
+    function sendWhatsAppGroupNotification(date, name, phone, food) {
+        const message = `🛕 *New Thursday Annadhanam Booking!*%0A🗓 *Date:* ${date}%0A👤 *Name:* ${name}%0A📞 *Phone:* ${phone}%0A🍱 *Food:* ${food}`;
+        window.open(`https://api.whatsapp.com/send?text=${message}`, '_blank');
+    }
+
+    loadCalendar();
+</script>
+</body>
+</html>
