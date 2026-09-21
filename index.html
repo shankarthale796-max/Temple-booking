@@ -3,14 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>श्री गजानन महाराज मंदिर - गुरुवार अन्नदान नोंदणी</title>
-    <!-- Google Fonts for Marathi -->
-    <link href="https://fonts.googleapis.com/css2?family=Tiro+Devanagari+Marathi:ital@0;1&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <title>श्री गजानन महाराज संस्थान वडशेद - गुरुवार अन्नदान सेवा</title>
+    <link href="https://fonts.googleapis.com/css2?family=Tiro+Devanagari+Marathi&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
         :root {
             --primary: #d32f2f;
-            --primary-dark: #9a0007;
             --secondary: #2e7d32;
             --bg-color: #fcf8f2;
             --card-bg: #ffffff;
@@ -44,7 +42,7 @@
 
         .header h1 {
             color: var(--primary);
-            font-size: 2.2rem;
+            font-size: 2rem;
             margin: 0 0 8px 0;
             font-weight: 700;
         }
@@ -68,12 +66,9 @@
             padding: 8px 16px;
             border-radius: 20px;
             cursor: pointer;
-            font-size: 0.9rem;
-            font-family: 'Poppins', sans-serif;
-            transition: all 0.3s;
+            font-size: 0.85rem;
+            font-family: sans-serif;
         }
-
-        .admin-btn:hover { background: #2D3748; }
 
         .calendar-grid {
             display: grid;
@@ -87,20 +82,15 @@
             background: #fff;
             border: 1px solid #e2e8f0;
             box-shadow: 0 4px 12px rgba(0,0,0,0.03);
-            transition: transform 0.2s, box-shadow 0.2s;
-            position: relative;
+            transition: transform 0.2s;
         }
 
-        .card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.08);
-        }
-
+        .card:hover { transform: translateY(-3px); }
         .card.booked { border-left: 6px solid var(--primary); background: #fff8f8; }
         .card.available { border-left: 6px solid var(--secondary); background: #f6fff6; }
 
         .date-title {
-            font-size: 1.2rem;
+            font-size: 1.15rem;
             font-weight: bold;
             color: #1a202c;
             margin-bottom: 8px;
@@ -120,9 +110,9 @@
         .badge.available { background-color: var(--secondary); }
 
         .info-text {
-            font-size: 1rem;
-            line-height: 1.6;
-            margin: 8px 0;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            margin: 6px 0;
         }
 
         .btn-book {
@@ -138,10 +128,7 @@
             font-size: 1rem;
             font-weight: bold;
             font-family: 'Tiro Devanagari Marathi', serif;
-            transition: background 0.2s;
         }
-
-        .btn-book:hover { background: #1b5e20; }
 
         .btn-delete {
             background: var(--primary);
@@ -151,17 +138,15 @@
             border-radius: 6px;
             cursor: pointer;
             margin-top: 10px;
-            font-size: 0.9rem;
         }
 
-        /* Modal Popup */
         .modal {
             display: none;
             position: fixed;
             top: 0; left: 0;
             width: 100%; height: 100%;
             background: rgba(0,0,0,0.6);
-            backdrop-filter: blur(4px);
+            backdrop-filter: blur(3px);
             justify-content: center;
             align-items: center;
             z-index: 1000;
@@ -172,14 +157,13 @@
             padding: 25px;
             border-radius: 16px;
             width: 90%;
-            max-width: 450px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+            max-width: 420px;
         }
 
         .modal-content h3 {
             margin-top: 0;
             color: var(--primary);
-            font-size: 1.5rem;
+            font-size: 1.4rem;
             text-align: center;
         }
 
@@ -187,7 +171,7 @@
             display: block;
             margin-top: 12px;
             font-weight: bold;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
         }
 
         .modal-content input, .modal-content textarea {
@@ -198,7 +182,6 @@
             border-radius: 8px;
             box-sizing: border-box;
             font-family: inherit;
-            font-size: 1rem;
         }
 
         .modal-actions {
@@ -212,10 +195,9 @@
             background: #e2e8f0;
             color: #4a5568;
             border: none;
-            padding: 10px 20px;
+            padding: 10px;
             border-radius: 8px;
             cursor: pointer;
-            font-weight: bold;
             flex: 1;
         }
 
@@ -223,7 +205,7 @@
             background: var(--secondary);
             color: white;
             border: none;
-            padding: 10px 20px;
+            padding: 10px;
             border-radius: 8px;
             cursor: pointer;
             font-weight: bold;
@@ -239,18 +221,17 @@
     </div>
     
     <div class="header">
-        <h1>🛕 श्री गजानन महाराज मंदिर</h1>
-        <p>गुरुवार महाप्रसाद/अन्नदान सेवा नोंदणी</p>
+        <h1>🛕 श्री गजानन महाराज संस्थान वडशेद (जुने)</h1>
+        <p>गुरुवार महाप्रसाद / अन्नदान सेवा नोंदणी पोर्टल</p>
     </div>
 
-    <div id="calendar" class="calendar-grid">तारीख लोड होत आहे...</div>
+    <div id="calendar" class="calendar-grid">माहिती लोड होत आहे...</div>
 </div>
 
-<!-- Booking Modal -->
 <div id="bookingModal" class="modal">
     <div class="modal-content">
         <h3>अन्नदान सेवा नोंदणी</h3>
-        <p id="modalDateDisplay" style="text-align: center; font-weight: bold; color: var(--primary); font-size: 1.1rem;"></p>
+        <p id="modalDateDisplay" style="text-align: center; font-weight: bold; color: var(--primary);"></p>
         <form id="bookingForm" onsubmit="submitBooking(event)">
             <input type="hidden" id="selectedDate">
             
@@ -274,11 +255,12 @@
 <script>
     const SUPABASE_URL = "https://tkftorwnoadfsvknldxw.supabase.co";
     const SUPABASE_KEY = "sb_publishable_5TGMP5zI5l4anJKhE5CxdQ_zqrHRCmC";
-    const ADMIN_PASSWORD = "admin123";
+    const ADMIN_PASSWORD = "admin123"; // तुमचा अ‍ॅडमिन पासवर्ड
 
-    // CallMeBot Group API Keys (Replace with your actual CallMeBot WhatsApp Group credentials)
-    const CALLMEBOT_GROUP_ID = "YOUR_WHATSAPP_GROUP_ID"; 
-    const CALLMEBOT_API_KEY = "YOUR_CALLMEBOT_API_KEY";
+    // Green-API Credentials
+    const GREEN_ID_INSTANCE = "710722741730";
+    const GREEN_API_TOKEN = "YOUR_API_TOKEN_HERE"; // <-- यहाँ अपना apiTokenInstance पेस्ट करें
+    const TEMPLE_GROUP_CHAT_ID = "120363413708644281@g.us";
 
     const db = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
     let isAdmin = false;
@@ -309,7 +291,7 @@
         const { data: bookings, error } = await db.from('thursday_bookings').select('*');
         if (error) { 
             console.error(error); 
-            calendarEl.innerHTML = "<p style='text-align:center;'>त्रुटी आली आहे. कृपया नंतर प्रयत्न करा.</p>";
+            calendarEl.innerHTML = "<p style='text-align:center;'>त्रुटी आली आहे.</p>";
             return; 
         }
 
@@ -411,15 +393,24 @@
         }
     }
 
-    // Direct Group Messaging via CallMeBot API Background Trigger
-    function sendDirectWhatsAppGroupMessage(date, name, phone, food) {
-        if (CALLMEBOT_GROUP_ID !== "YOUR_WHATSAPP_GROUP_ID") {
-            const messageText = encodeURIComponent(`🛕 *नवीन अन्नदान नोंदणी!*\n🗓 *दिनांक:* ${formatDateToMarathi(date)}\n👤 *अन्नदाते:* ${name}\n📞 *संपर्क:* ${phone}\n🍱 *मेनू:* ${food}`);
-            const apiUrl = `https://api.callmebot.com/whatsapp.php?source=web&phone=${CALLMEBOT_GROUP_ID}&text=${messageText}&apikey=${CALLMEBOT_API_KEY}`;
-            
-            fetch(apiUrl, { mode: 'no-cors' })
-                .then(() => console.log("Group notification dispatched successfully."))
-                .catch(err => console.error("Notification Error:", err));
+    async function sendDirectWhatsAppGroupMessage(date, name, phone, food) {
+        if (GREEN_API_TOKEN !== "cc09209b59c64b49babaed7d19ac0122e744af10ce8d47329f") {
+            const formattedDate = formatDateToMarathi(date);
+            const messageText = `🛕 *नवीन अन्नदान नोंदणी!*\n🗓 *दिनांक:* ${formattedDate}\n👤 *अन्नदाते:* ${name}\n📞 *संपर्क:* ${phone}\n🍱 *मेनू:* ${food}`;
+            const url = `https://api.green-api.com/waInstance${GREEN_ID_INSTANCE}/sendMessage/${GREEN_API_TOKEN}`;
+
+            try {
+                await fetch(url, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        chatId: TEMPLE_GROUP_CHAT_ID,
+                        message: messageText
+                    })
+                });
+            } catch (err) {
+                console.error("WhatsApp Message Error:", err);
+            }
         }
     }
 
