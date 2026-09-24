@@ -239,8 +239,9 @@
 </head>
 <body>
 
+<!-- Working Divine Mantra Audio Link -->
 <audio id="mantraAudio" loop preload="auto">
-    <source src="https://cdnsongs.com/music/data/Bhakti_Sangeet/202008/Gan_Gan_Ganat_Bote/128/Gan_Gan_Ganat_Bote_1.mp3" type="audio/mpeg">
+    <source src="https://archive.org/download/gan-gan-ganat-bote/Gan_Gan_Ganat_Bote.mp3" type="audio/mpeg">
 </audio>
 
 <div class="container">
@@ -252,8 +253,8 @@
     </div>
     
     <div class="divine-header">
-        <!-- Direct High Resolution Gajanan Maharaj Photo from Wikimedia -->
-        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Gajanan_Maharaj_Mandir_at_Omkareshwar.jpg/600px-Gajanan_Maharaj_Mandir_at_Omkareshwar.jpg" alt="श्री गजानन महाराज" class="grand-maharaj-img" id="maharajPhoto">
+        <!-- Local uploaded photo from repository -->
+        <img src="gajanan.jpg" alt="श्री गजानन महाराज" class="grand-maharaj-img" id="maharajPhoto" onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Gajanan_Maharaj_Mandir_at_Omkareshwar.jpg/600px-Gajanan_Maharaj_Mandir_at_Omkareshwar.jpg'">
         <h1>🛕 श्री गजानन महाराज संस्थान वडशेद (जुने)</h1>
         <p>गुरुवार महाप्रसाद / अन्नदान सेवा नोंदणी दालन</p>
     </div>
@@ -318,6 +319,22 @@
     const db = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
     let isAdmin = false;
     let allBookingsData = [];
+
+    // Screen Touch / Click listener for Auto Play Audio
+    let audioStarted = false;
+    function autoPlayMantraOnUserTouch() {
+        if (!audioStarted) {
+            const audio = document.getElementById('mantraAudio');
+            audio.play().then(() => {
+                audioStarted = true;
+                document.getElementById('musicIcon').innerText = "🔊";
+                document.getElementById('musicText').innerText = "मंत्रध्वनी सुरू आहे";
+            }).catch(e => console.log("User touch needed for audio"));
+        }
+    }
+
+    document.addEventListener('click', autoPlayMantraOnUserTouch, { once: true });
+    document.addEventListener('touchstart', autoPlayMantraOnUserTouch, { once: true });
 
     function getThursdaysList(count = 200) {
         const thursdays = [];
@@ -540,6 +557,7 @@
 
         if (audio.paused) {
             audio.play().then(() => {
+                audioStarted = true;
                 icon.innerText = "🔊";
                 text.innerText = "मंत्रध्वनी सुरू आहे";
             }).catch(() => {
