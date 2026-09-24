@@ -81,8 +81,8 @@
         }
 
         .grand-maharaj-img {
-            width: 200px;
-            height: 200px;
+            width: 220px;
+            height: 220px;
             border-radius: 50%;
             object-fit: cover;
             border: 6px solid var(--gold);
@@ -252,8 +252,8 @@
     </div>
     
     <div class="divine-header">
-        <!-- Working Direct High Resolution Gajanan Maharaj Image -->
-        <img src="https://i.postimg.cc/mD3W56s2/gajanan-maharaj.jpg" alt="श्री गjanन महाराज" class="grand-maharaj-img" onerror="this.src='https://images.unsplash.com/photo-1544816155-12df9643f363?w=600'">
+        <!-- Direct High Resolution Gajanan Maharaj Photo from Wikimedia -->
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Gajanan_Maharaj_Mandir_at_Omkareshwar.jpg/600px-Gajanan_Maharaj_Mandir_at_Omkareshwar.jpg" alt="श्री गजानन महाराज" class="grand-maharaj-img" id="maharajPhoto">
         <h1>🛕 श्री गजानन महाराज संस्थान वडशेद (जुने)</h1>
         <p>गुरुवार महाप्रसाद / अन्नदान सेवा नोंदणी दालन</p>
     </div>
@@ -364,7 +364,6 @@
 
         let count = 0;
 
-        // Render past completed bookings if selected
         if (filterVal === 'past') {
             allBookingsData.filter(b => b.food_type && b.food_type.includes("[COMPLETED]")).forEach(booked => {
                 const card = document.createElement('div');
@@ -382,12 +381,10 @@
             return;
         }
 
-        // Render Upcoming Thursdays
         thursdays.forEach(dateStr => {
             const booked = bookingMap[dateStr];
             const formattedDate = formatDateToMarathi(dateStr);
 
-            // Hide completed ones from main upcoming list
             if (booked && booked.food_type && booked.food_type.includes("[COMPLETED]")) return;
 
             if (filterVal === 'available' && booked) return;
@@ -412,7 +409,7 @@
                 
                 if (isAdmin) {
                     content += `<div class="info-text"><strong>फोन:</strong> ${booked.phone_number}</div>`;
-                    content += `<button class="btn-complete" onclick="markServiceCompleted(${booked.id}, '${dateStr}', '${booked.devotee_name}', '${booked.phone_number}', '${booked.food_type}')">✨ अन्नदान सेवा पूर्ण झाली (Send Photo Card)</button>`;
+                    content += `<button class="btn-complete" onclick="markServiceCompleted(${booked.id}, '${dateStr}', '${booked.devotee_name}', '${booked.phone_number}', '${booked.food_type}')">✨ अन्नदान सेवा पूर्ण झाली (Send WhatsApp Photo)</button>`;
                     content += `<button class="btn-delete" onclick="deleteBooking(${booked.id})">नोंदणी रद्द करा</button>`;
                 } else {
                     content += `<div class="info-text"><strong>फोन:</strong> ••••••••••</div>`;
@@ -505,11 +502,9 @@
         } catch (err) { console.error(err); }
     }
 
-    // Direct HD Certificate Attachment Logic via Green API SendFileByUrl
     async function markServiceCompleted(id, dateStr, name, phone, currentFood) {
         if (confirm(`तुम्हाला ${name} यांची सेवा पूर्ण झाली म्हणून चिन्हांकित करायचे आहे का? (व्हॉट्सॲपवर HD फोटो आणि मेसेज पाठवला जाईल)`)) {
             
-            // Mark as completed in existing database cleanly
             await db.from('thursday_bookings').update({ food_type: currentFood + " [COMPLETED]" }).eq('id', id);
 
             const formattedDate = formatDateToMarathi(dateStr);
@@ -526,7 +521,7 @@
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({
                         chatId: `${cleanPhone}@c.us`,
-                        urlFile: "https://i.postimg.cc/mD3W56s2/gajanan-maharaj.jpg",
+                        urlFile: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Gajanan_Maharaj_Mandir_at_Omkareshwar.jpg/600px-Gajanan_Maharaj_Mandir_at_Omkareshwar.jpg",
                         fileName: "Shri_Gajanan_Maharaj_Blessings.jpg",
                         caption: statusMessage
                     })
