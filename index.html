@@ -239,8 +239,10 @@
 </head>
 <body>
 
+<!-- Working Direct Audio File -->
 <audio id="mantraAudio" loop preload="auto">
-    <source src="https://archive.org/download/gan-gan-ganat-bote/Gan_Gan_Ganat_Bote.mp3" type="audio/mpeg">
+    <source src="https://raw.githubusercontent.com/shankarthale796-max/assets/main/gan_gan_ganat_bote.mp3" type="audio/mpeg">
+    <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
 </audio>
 
 <div class="container">
@@ -252,7 +254,8 @@
     </div>
     
     <div class="divine-header">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/8/86/Gajanan_maharaj.jpg" alt="श्री गजानन महाराज" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover;">
+        <!-- Exact photo path mapped to uploaded filename -->
+        <img src="gajanan.jpg" alt="श्री गजानन महाराज" class="grand-maharaj-img" id="maharajPhoto" onerror="this.src='gajanan.png'">
         <h1>🛕 श्री गजानन महाराज संस्थान वडशेद (जुने)</h1>
         <p>गुरुवार महाप्रसाद / अन्नदान सेवा नोंदणी दालन</p>
     </div>
@@ -312,6 +315,7 @@
     let isAdmin = false;
     let allBookingsData = [];
 
+    // Instant Play on First Screen Touch
     let audioStarted = false;
     function autoPlayMantraOnUserTouch() {
         if (!audioStarted) {
@@ -320,7 +324,7 @@
                 audioStarted = true;
                 document.getElementById('musicIcon').innerText = "🔊";
                 document.getElementById('musicText').innerText = "मंत्रध्वनी सुरू आहे";
-            }).catch(e => console.log("User interaction required"));
+            }).catch(e => console.log("Interaction needed"));
         }
     }
 
