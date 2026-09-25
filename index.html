@@ -545,7 +545,6 @@ function renderUpcomingHero(){
       ${hasBooking ? `<div class="upcoming-status">🙏 या गुरुवारची सेवा नोंदणी झाली आहे</div>` : `<div class="upcoming-status">🪔 ही तारीख अन्नदानासाठी उपलब्ध आहे</div>`}
       <div class="share-row">
         ${!hasBooking ? `<button class="share-btn primary" onclick="openModal('${dateStr}')">🙏 अन्नदान नोंदणी करा</button>` : ""}
-        <button class="share-btn" onclick='shareService(${JSON.stringify(txt)})'>📲 WhatsApp वर शेअर करा</button>
       </div>
       <div class="upcoming-note">अन्नदान हा सेवाभावाचा सुंदर संकल्प आहे. 🙏<br>॥ गण गण गणात बोते ॥</div>
     </div>
