@@ -1,551 +1,592 @@
 <!DOCTYPE html>
 <html lang="mr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>श्री गजानन महाराज संस्थान वडशेद - गुरुवार अन्नदान सेवा</title>
-    <link href="https://fonts.googleapis.com/css2?family=Tiro+Devanagari+Marathi:ital@0;1&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-    <style>
-        :root {
-            --primary: #c62828;
-            --primary-dark: #8e0000;
-            --secondary: #1b5e20;
-            --gold: #d4af37;
-            --bg-color: #fcf9f2;
-            --card-bg: #ffffff;
-            --text-color: #2c3e50;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#120b06">
+<title>श्री गजानन महाराज संस्थान वडशेद - गुरुवार अन्नदान सेवा</title>
+<link href="https://fonts.googleapis.com/css2?family=Tiro+Devanagari+Marathi:wght@400;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
-        body {
-            font-family: 'Tiro Devanagari Marathi', 'Poppins', serif;
-            background-color: var(--bg-color);
-            background-image: radial-gradient(#ebd9b4 0.75px, transparent 0.75px);
-            background-size: 16px 16px;
-            margin: 0;
-            padding: 15px;
-            color: var(--text-color);
-        }
+<style>
+:root{
+  --gold:#e7bf63;
+  --gold2:#fff0b0;
+  --saffron:#c97720;
+  --deep:#120b06;
+  --deep2:#21130a;
+  --cream:#fffaf0;
+  --muted:#d9c9b0;
+  --green:#2d8a58;
+  --red:#b83a32;
+  --glass:rgba(20,12,7,.70);
+  --line:rgba(231,191,99,.24);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  min-height:100vh;
+  color:var(--cream);
+  font-family:'Tiro Devanagari Marathi','Poppins',serif;
+  background:#0c0805 url("temple-bg.jpg") center/cover fixed no-repeat;
+  position:relative;
+}
+body:before{
+  content:"";
+  position:fixed; inset:0; z-index:-2;
+  background:
+    linear-gradient(180deg,rgba(5,3,2,.62),rgba(12,7,3,.82) 45%,rgba(8,5,3,.94)),
+    radial-gradient(circle at 50% 10%,rgba(232,191,99,.16),transparent 36%);
+}
+body:after{
+  content:""; position:fixed; inset:0; z-index:-1; pointer-events:none;
+  background-image:radial-gradient(rgba(255,240,176,.11) 1px,transparent 1px);
+  background-size:28px 28px; opacity:.22;
+}
+button,input,textarea,select{font:inherit}
+button{cursor:pointer}
+.page{
+  width:min(1180px,calc(100% - 24px));
+  margin:18px auto 45px;
+}
+.shell{
+  border:1px solid var(--line);
+  background:rgba(12,7,3,.58);
+  backdrop-filter:blur(18px);
+  -webkit-backdrop-filter:blur(18px);
+  border-radius:30px;
+  box-shadow:0 30px 90px rgba(0,0,0,.55),inset 0 1px rgba(255,255,255,.08);
+  overflow:hidden;
+}
+.topbar{
+  display:flex;justify-content:space-between;align-items:center;gap:12px;
+  padding:15px 18px;border-bottom:1px solid var(--line);
+  background:rgba(8,5,3,.58);
+}
+.brand-mini{display:flex;align-items:center;gap:10px;color:var(--gold2);font-weight:700}
+.brand-mark{
+  width:38px;height:38px;border:1px solid var(--gold);border-radius:50%;
+  display:grid;place-items:center;background:rgba(231,191,99,.10);
+  box-shadow:0 0 22px rgba(231,191,99,.18);
+}
+.top-actions{display:flex;gap:9px;flex-wrap:wrap}
+.btn{
+  border:1px solid var(--line);border-radius:999px;padding:10px 15px;
+  color:var(--cream);background:rgba(255,255,255,.07);
+  transition:.25s ease;box-shadow:0 8px 25px rgba(0,0,0,.18);
+}
+.btn:hover{transform:translateY(-1px);background:rgba(255,255,255,.12)}
+.btn-gold{border-color:rgba(231,191,99,.65);background:linear-gradient(135deg,#9e681d,#e7bf63);color:#1b1006;font-weight:700}
+.btn-admin{background:rgba(0,0,0,.28)}
+.hero{padding:42px 24px 32px;text-align:center}
+.portrait-wrap{
+  width:205px;height:205px;margin:0 auto 20px;position:relative;
+}
+.portrait-wrap:before{
+  content:"";position:absolute;inset:-9px;border-radius:50%;
+  background:conic-gradient(from 0deg,#8f5c15,#ffe59a,#a76a18,#fff0b0,#8f5c15);
+  animation:spin 12s linear infinite;
+  box-shadow:0 0 45px rgba(231,191,99,.35);
+}
+.portrait-wrap:after{
+  content:"";position:absolute;inset:-18px;border-radius:50%;
+  border:1px solid rgba(255,224,137,.25);
+  box-shadow:0 0 40px rgba(231,191,99,.15);
+}
+.portrait{
+  position:relative;z-index:1;width:100%;height:100%;object-fit:cover;
+  border-radius:50%;border:5px solid #25170c;box-shadow:0 15px 40px #000;
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+.eyebrow{
+  display:inline-flex;align-items:center;gap:8px;padding:7px 14px;border-radius:999px;
+  border:1px solid var(--line);background:rgba(231,191,99,.08);
+  color:var(--gold2);font-size:.9rem;
+}
+.hero h1{
+  margin:15px auto 8px;max-width:900px;font-size:clamp(1.8rem,5vw,3.1rem);
+  line-height:1.25;color:#fff2c6;text-shadow:0 3px 25px #000;
+}
+.hero p{margin:0;color:#eadcc7;font-size:clamp(1rem,2vw,1.2rem)}
+.divider{display:flex;align-items:center;gap:12px;justify-content:center;margin:20px 0 0;color:var(--gold)}
+.divider:before,.divider:after{content:"";height:1px;width:min(150px,20vw);background:linear-gradient(90deg,transparent,var(--gold))}
+.divider:after{background:linear-gradient(90deg,var(--gold),transparent)}
+.content{padding:0 22px 30px}
+.info-strip{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:22px
+}
+.info{
+  padding:15px;border:1px solid var(--line);border-radius:18px;background:rgba(255,255,255,.055);
+  text-align:center
+}
+.info strong{display:block;color:var(--gold2);font-size:1.1rem}
+.info span{font-size:.82rem;color:var(--muted)}
+.toolbar{
+  display:flex;gap:10px;flex-wrap:wrap;margin-bottom:22px;
+  padding:12px;border:1px solid var(--line);border-radius:20px;background:rgba(0,0,0,.23)
+}
+.search-input,.filter-select{
+  min-height:48px;border:1px solid rgba(231,191,99,.24);border-radius:14px;
+  background:rgba(255,255,255,.08);color:#fff;padding:0 15px;outline:none;
+}
+.search-input{flex:1;min-width:220px}
+.filter-select{min-width:220px}
+.search-input::placeholder{color:#cbbda9}
+.filter-select option{color:#111}
+.section-title{
+  display:flex;align-items:center;gap:10px;margin:25px 0 15px;
+  color:var(--gold2);font-size:1.35rem;font-weight:700
+}
+.section-title:after{content:"";height:1px;flex:1;background:linear-gradient(90deg,var(--line),transparent)}
+.calendar-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px}
+.card{
+  position:relative;padding:20px;border-radius:22px;border:1px solid var(--line);
+  background:linear-gradient(145deg,rgba(255,255,255,.09),rgba(0,0,0,.22));
+  box-shadow:0 14px 38px rgba(0,0,0,.24);overflow:hidden;
+  transition:.25s ease;
+}
+.card:hover{transform:translateY(-3px);border-color:rgba(231,191,99,.48)}
+.card:before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--gold)}
+.card.available:before{background:#55c986}
+.card.booked:before{background:#e16b5f}
+.card.completed:before{background:#6ba5e5}
+.date-title{font-size:1.15rem;font-weight:700;color:#fff0c4;margin-bottom:9px}
+.badge{
+  display:inline-block;padding:6px 11px;border-radius:999px;font-size:.78rem;font-weight:700;
+  border:1px solid rgba(255,255,255,.12);margin-bottom:10px
+}
+.badge.available{background:rgba(45,138,88,.18);color:#9ff0c0}
+.badge.booked{background:rgba(184,58,50,.18);color:#ffaaa0}
+.badge.completed{background:rgba(69,118,174,.2);color:#b6d7ff}
+.info-text{color:#e7dccb;font-size:.93rem;line-height:1.65;margin:3px 0}
+.info-text strong{color:#fff0c4}
+.btn-book,.btn-complete,.btn-delete{
+  width:100%;border-radius:13px;padding:12px;border:1px solid transparent;margin-top:13px;font-weight:700
+}
+.btn-book{background:linear-gradient(135deg,#1e7549,#36a96d);color:#fff;box-shadow:0 10px 25px rgba(24,115,72,.22)}
+.btn-complete{background:linear-gradient(135deg,#2f6fa5,#173b5e);color:#fff}
+.btn-delete{background:rgba(184,58,50,.15);color:#ffaaa0;border-color:rgba(184,58,50,.35)}
+.empty{padding:30px;text-align:center;color:var(--muted)}
+.modal{
+  display:none;position:fixed;inset:0;z-index:1000;padding:15px;
+  background:rgba(0,0,0,.75);backdrop-filter:blur(14px);align-items:center;justify-content:center
+}
+.modal-content{
+  width:min(480px,100%);max-height:92vh;overflow:auto;padding:25px;border-radius:26px;
+  border:1px solid var(--line);background:linear-gradient(145deg,#21130a,#0e0804);
+  box-shadow:0 30px 90px #000
+}
+.modal-content h3{margin:0 0 5px;text-align:center;color:var(--gold2);font-size:1.5rem}
+.modal-date{text-align:center;color:var(--gold);font-weight:700;margin-bottom:18px}
+.modal-content label{display:block;margin:13px 0 6px;color:#eadcc7;font-weight:700;font-size:.9rem}
+.modal-content input,.modal-content textarea{
+  width:100%;padding:12px;border-radius:13px;border:1px solid rgba(231,191,99,.24);
+  background:rgba(255,255,255,.07);color:#fff;outline:none
+}
+.modal-content textarea{resize:vertical}
+.modal-actions{display:flex;gap:10px;margin-top:18px}
+.btn-cancel,.btn-submit{flex:1;padding:12px;border-radius:13px;border:1px solid var(--line);font-weight:700}
+.btn-cancel{background:rgba(255,255,255,.07);color:#eee}
+.btn-submit{background:linear-gradient(135deg,#9e681d,#e7bf63);color:#1b1006}
+.notice{
+  margin-top:15px;padding:12px;border:1px dashed rgba(231,191,99,.5);border-radius:14px;
+  background:rgba(231,191,99,.07);color:#f1d99c;text-align:center;font-size:.86rem
+}
+.footer{text-align:center;padding:20px;color:#bcae9b;font-size:.82rem;border-top:1px solid var(--line)}
+.sound-orb{
+  position:fixed;right:18px;bottom:18px;z-index:900;width:58px;height:58px;border-radius:50%;
+  border:1px solid var(--gold);background:rgba(20,12,7,.8);color:var(--gold2);
+  box-shadow:0 12px 35px rgba(0,0,0,.4),0 0 25px rgba(231,191,99,.15)
+}
+.welcome{
+  position:fixed;inset:0;z-index:2000;display:flex;align-items:center;justify-content:center;padding:20px;
+  background:linear-gradient(180deg,rgba(7,4,2,.9),rgba(18,9,3,.96)),url("temple-bg.jpg") center/cover;
+}
+.welcome-card{
+  width:min(470px,100%);text-align:center;padding:34px 25px;border-radius:30px;
+  border:1px solid var(--line);background:rgba(20,11,6,.74);backdrop-filter:blur(20px);
+  box-shadow:0 35px 100px #000
+}
+.welcome-card .small{color:var(--gold);font-size:.9rem}
+.welcome-card h2{color:#fff0c4;font-size:2rem;margin:10px 0}
+.welcome-card p{color:#ddcfbc;line-height:1.7}
+.enter-btn{
+  margin-top:12px;width:100%;padding:14px;border:0;border-radius:999px;
+  background:linear-gradient(135deg,#9e681d,#f2d27b);color:#1b1006;font-weight:700;font-size:1.05rem
+}
+@media(max-width:650px){
+  .page{width:calc(100% - 10px);margin:5px auto 25px}
+  .shell{border-radius:22px}
+  .topbar{align-items:flex-start}
+  .brand-mini span:last-child{display:none}
+  .hero{padding:30px 15px 25px}
+  .portrait-wrap{width:165px;height:165px}
+  .content{padding:0 12px 20px}
+  .info-strip{grid-template-columns:1fr}
+  .toolbar{padding:9px}
+  .search-input,.filter-select{width:100%;min-width:0}
+  .calendar-grid{grid-template-columns:1fr}
+}
 
-        .container {
-            max-width: 980px;
-            margin: 0 auto;
-            background: var(--card-bg);
-            padding: 25px;
-            border-radius: 20px;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08);
-            border: 2px solid #f4e8c1;
-        }
-
-        .top-controls {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-
-        .music-btn {
-            background: #fff8e7;
-            border: 2px solid var(--gold);
-            color: #8a6d1c;
-            padding: 10px 20px;
-            border-radius: 25px;
-            cursor: pointer;
-            font-size: 1rem;
-            font-weight: bold;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            box-shadow: 0 4px 10px rgba(212, 175, 55, 0.3);
-        }
-
-        .admin-btn {
-            background: #2d3748;
-            color: #fff;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 25px;
-            cursor: pointer;
-            font-size: 0.9rem;
-            font-family: 'Poppins', sans-serif;
-        }
-
-        .divine-header {
-            text-align: center;
-            padding: 20px;
-            background: linear-gradient(180deg, #fff9eb 0%, #ffffff 100%);
-            border-radius: 15px;
-            border: 1px solid #f0e0b6;
-            margin-bottom: 25px;
-        }
-
-        .grand-maharaj-img {
-            width: 220px;
-            height: 220px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 6px solid var(--gold);
-            box-shadow: 0 0 30px rgba(212, 175, 55, 0.7);
-            margin-bottom: 15px;
-        }
-
-        .divine-header h1 {
-            color: var(--primary);
-            font-size: 2.2rem;
-            margin: 5px 0;
-            font-weight: 700;
-        }
-
-        .divine-header p {
-            font-size: 1.15rem;
-            color: #555;
-            margin: 0;
-            font-weight: 600;
-        }
-
-        .section-title {
-            font-size: 1.4rem;
-            color: var(--primary);
-            border-bottom: 2px solid #f4e8c1;
-            padding-bottom: 8px;
-            margin: 30px 0 18px 0;
-            font-weight: bold;
-        }
-
-        .search-bar-container {
-            display: flex;
-            gap: 12px;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-        }
-
-        .search-input, .filter-select {
-            padding: 12px;
-            border: 1px solid #cbd5e0;
-            border-radius: 10px;
-            font-size: 0.95rem;
-            font-family: inherit;
-        }
-
-        .search-input { flex: 2; min-width: 200px; }
-        .filter-select { flex: 1; min-width: 140px; background: #fff; }
-
-        .calendar-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 22px;
-        }
-
-        .card {
-            border-radius: 16px;
-            padding: 20px;
-            background: #fff;
-            border: 1px solid #e8e1d1;
-            box-shadow: 0 6px 16px rgba(0,0,0,0.04);
-            position: relative;
-        }
-
-        .card.booked { border-left: 6px solid var(--primary); background: #fff8f8; }
-        .card.available { border-left: 6px solid var(--secondary); background: #f6fff6; }
-        .card.completed { border-left: 6px solid #2b6cb0; background: #f0f7ff; }
-
-        .date-title { font-size: 1.2rem; font-weight: bold; color: #1a202c; margin-bottom: 8px; }
-
-        .badge {
-            display: inline-block;
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 0.82rem;
-            color: #fff;
-            font-weight: bold;
-            margin-bottom: 10px;
-        }
-
-        .badge.booked { background-color: var(--primary); }
-        .badge.available { background-color: var(--secondary); }
-        .badge.completed { background-color: #2b6cb0; }
-
-        .info-text { font-size: 0.95rem; line-height: 1.5; margin: 5px 0; color: #333; }
-
-        .btn-book {
-            display: block;
-            width: 100%;
-            margin-top: 15px;
-            background: linear-gradient(135deg, #2e7d32 0%, #1b5e20 100%);
-            color: white;
-            border: none;
-            padding: 12px;
-            border-radius: 10px;
-            cursor: pointer;
-            font-size: 1.05rem;
-            font-weight: bold;
-            font-family: 'Tiro Devanagari Marathi', serif;
-        }
-
-        .btn-complete {
-            background: linear-gradient(135deg, #2b6cb0 0%, #1a365d 100%);
-            color: white;
-            border: none;
-            padding: 10px;
-            border-radius: 8px;
-            cursor: pointer;
-            margin-top: 10px;
-            font-size: 0.88rem;
-            font-weight: bold;
-            width: 100%;
-        }
-
-        .btn-delete {
-            background: var(--primary);
-            color: white;
-            border: none;
-            padding: 6px 12px;
-            border-radius: 6px;
-            cursor: pointer;
-            margin-top: 8px;
-            font-size: 0.82rem;
-        }
-
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            background: rgba(0,0,0,0.65);
-            backdrop-filter: blur(4px);
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-        }
-
-        .modal-content {
-            background: white;
-            padding: 25px;
-            border-radius: 18px;
-            width: 90%;
-            max-width: 450px;
-            border: 2px solid #f4e8c1;
-        }
-
-        .modal-content h3 { margin-top: 0; color: var(--primary); font-size: 1.4rem; text-align: center; }
-        .modal-content label { display: block; margin-top: 12px; font-weight: bold; font-size: 0.9rem; }
-        .modal-content input, .modal-content textarea { width: 100%; margin-top: 4px; padding: 9px; border: 1px solid #cbd5e0; border-radius: 8px; box-sizing: border-box; font-family: inherit; }
-
-        .modal-actions { display: flex; justify-content: space-between; margin-top: 18px; gap: 10px; }
-        .btn-cancel { background: #edf2f7; color: #4a5568; border: none; padding: 10px; border-radius: 8px; cursor: pointer; flex: 1; }
-        .btn-submit { background: var(--secondary); color: white; border: none; padding: 10px; border-radius: 8px; cursor: pointer; font-weight: bold; flex: 1; }
-    </style>
+.upcoming-hero{margin:0 0 22px;padding:22px;border-radius:25px;border:1px solid rgba(231,191,99,.42);background:radial-gradient(circle at 85% 20%,rgba(231,191,99,.18),transparent 32%),linear-gradient(135deg,rgba(92,56,18,.42),rgba(255,255,255,.045));box-shadow:0 18px 55px rgba(0,0,0,.28)}.upcoming-kicker{color:var(--gold);font-size:.82rem;font-weight:700}.upcoming-date{font-size:clamp(1.4rem,4vw,2rem);color:#fff1c5;font-weight:700;margin:6px 0}.upcoming-meta{display:flex;flex-wrap:wrap;gap:8px;margin-top:9px}.meta-pill{padding:7px 10px;border-radius:999px;background:rgba(255,255,255,.07);border:1px solid var(--line);color:#eadcc7;font-size:.82rem}.share-row{display:flex;gap:9px;flex-wrap:wrap;margin-top:15px}.share-btn{border:1px solid rgba(231,191,99,.4);background:rgba(231,191,99,.1);color:#ffe9a9;border-radius:12px;padding:10px 13px;font-weight:700}.completed-photo{width:100%;aspect-ratio:16/10;object-fit:cover;border-radius:15px;margin-top:12px;border:1px solid var(--line)}.photo-input{margin-top:8px;color:#d9c9b0;font-size:.8rem}
+</style>
 </head>
+
 <body>
 
-<!-- Working Direct Audio File -->
+<!-- Browser autoplay policies may block audio. This first-entry screen gives one user gesture,
+     which reliably starts the supplied mantra on mobile browsers. -->
+<div class="welcome" id="welcomeScreen">
+  <div class="welcome-card">
+    <div class="small">॥ श्री गजानन महाराज ॥</div>
+    <h2>अन्नदान सेवा दालन</h2>
+    <p>श्री गजानन महाराज संस्थान वडशेद (जुने) यांच्या गुरुवार अन्नदान सेवेसाठी स्वागत.</p>
+    <button class="enter-btn" onclick="enterTemple()">🙏 दर्शनासाठी प्रवेश करा</button>
+    <div style="margin-top:12px;color:#bcae9b;font-size:.78rem">प्रवेश करताच मंत्रध्वनी सुरू होईल.</div>
+  </div>
+</div>
+
 <audio id="mantraAudio" loop preload="auto">
-    <source src="https://raw.githubusercontent.com/shankarthale796-max/assets/main/gan_gan_ganat_bote.mp3" type="audio/mpeg">
-    <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+  <source src="gan_gan_ganat_bote.mp3" type="audio/mpeg">
 </audio>
 
-<div class="container">
-    <div class="top-controls">
-        <button class="music-btn" onclick="toggleMusic()">
-            <span id="musicIcon">🪕</span> <span id="musicText">मंत्रध्वनी सुरू करा</span>
+<button class="sound-orb" onclick="toggleMusic()" aria-label="मंत्रध्वनी">
+  <span id="musicIcon">🔇</span>
+</button>
+
+<div class="page">
+  <div class="shell">
+    <div class="topbar">
+      <div class="brand-mini">
+        <div class="brand-mark">ॐ</div>
+        <span>श्री गजानन महाराज संस्थान • वडशेद</span>
+      </div>
+      <div class="top-actions">
+        <button class="btn btn-gold" onclick="toggleMusic()">
+          <span id="musicText">मंत्रध्वनी</span>
         </button>
-        <button id="toggleAdminBtn" class="admin-btn" onclick="toggleAdmin()">प्रशासक लॉगिन (Admin)</button>
-    </div>
-    
-    <div class="divine-header">
-        <!-- Exact photo path mapped to uploaded filename -->
-        <img src="gajanan.jpg" alt="श्री गजानन महाराज" class="grand-maharaj-img" id="maharajPhoto" onerror="this.src='gajanan.png'">
-        <h1>🛕 श्री गजानन महाराज संस्थान वडशेद (जुने)</h1>
-        <p>गुरुवार महाप्रसाद / अन्नदान सेवा नोंदणी दालन</p>
+        <button id="toggleAdminBtn" class="btn btn-admin" onclick="toggleAdmin()">प्रशासक लॉगिन</button>
+      </div>
     </div>
 
-    <div class="search-bar-container">
+    <section class="hero">
+      <div class="portrait-wrap">
+        <img src="gajanan.jpg" alt="श्री गजानन महाराज" class="portrait">
+      </div>
+      <div class="eyebrow">🪔 गुरुवार अन्नदान • डिजिटल सेवा</div>
+      <h1>॥ श्री गजानन महाराज संस्थान वडशेद (जुने) ॥</h1>
+      <p>गुरुवार महाप्रसाद / अन्नदान सेवा नोंदणी दालन</p>
+      <div class="divider">ॐ</div>
+    </section>
+
+    <main class="content">
+      <div class="info-strip">
+        <div class="info"><strong>गुरुवार सेवा</strong><span>आपला अन्नदान संकल्प नोंदवा</span></div>
+        <div class="info"><strong>पारदर्शक नोंदणी</strong><span>उपलब्ध व नोंदणी झालेल्या तारखा पहा</span></div>
+        <div class="info"><strong>डिजिटल सुविधा</strong><span>नोंदणीनंतर WhatsApp माहिती</span></div>
+      </div>
+
+      <div class="toolbar">
         <input type="text" id="searchInput" class="search-input" placeholder="🔍 नाव, फोन नंबर किंवा तारीख शोधा..." oninput="filterCalendar()">
         <select id="filterSelect" class="filter-select" onchange="filterCalendar()">
-            <option value="all">सर्व आगामी गुरुवार (Upcoming)</option>
-            <option value="available">रिक्त (Available)</option>
-            <option value="booked">नोंदणी झालेले (Booked)</option>
-            <option value="past">मागील पूर्ण झालेल्या सेवा (Past/Completed)</option>
+          <option value="all">सर्व आगामी गुरुवार</option>
+          <option value="available">रिक्त गुरुवार</option>
+          <option value="booked">नोंदणी झालेले</option>
+          <option value="past">मागील पूर्ण झालेल्या सेवा</option>
         </select>
-    </div>
+      </div>
 
-    <div id="sectionHeader" class="section-title">🗓 आगामी अन्नदान सेवा (Upcoming Thursdays)</div>
-    <div id="calendar" class="calendar-grid">माहिती लोड होत आहे...</div>
+      <div id="upcomingHero"></div>
+      <div id="sectionHeader" class="section-title">🗓 उपलब्ध / नोंदणी झालेल्या गुरुवार सेवा</div>
+      <div id="calendar" class="calendar-grid"><div class="empty">माहिती लोड होत आहे...</div></div>
+    </main>
+
+    <div class="footer">
+      🙏 श्री गजानन महाराज प्रसन्न • अन्नदान हीच श्रेष्ठ सेवा 🙏
+    </div>
+  </div>
 </div>
 
 <div id="bookingModal" class="modal">
-    <div class="modal-content">
-        <h3>अन्नदान सेवा संकल्प नोंदणी</h3>
-        <p id="modalDateDisplay" style="text-align: center; font-weight: bold; color: var(--primary); margin-bottom: 10px;"></p>
-        <form id="bookingForm" onsubmit="submitBooking(event)">
-            <input type="hidden" id="selectedDate">
-            
-            <label>अन्नदात्याचे पूर्ण नाव (Full Name):</label>
-            <input type="text" id="devoteeName" required placeholder="उदा. राजेश विठ्ठल पाटील">
+  <div class="modal-content">
+    <h3>अन्नदान सेवा संकल्प</h3>
+    <div id="modalDateDisplay" class="modal-date"></div>
+    <form id="bookingForm" onsubmit="submitBooking(event)">
+      <input type="hidden" id="selectedDate">
 
-            <label>मोबाइल नंबर (WhatsApp Number):</label>
-            <input type="tel" id="phoneNumber" required pattern="[0-9]{10}" placeholder="१० अंकी मोबाइल नंबर">
+      <label>अन्नदात्याचे पूर्ण नाव</label>
+      <input type="text" id="devoteeName" required placeholder="उदा. राजेश विठ्ठल पाटील">
 
-            <label>अन्नदानाचा मेनू (Menu Details):</label>
-            <textarea id="foodType" rows="2" required placeholder="उदा. पुरी भाजी, दाल खिचडी, शिरा"></textarea>
+      <label>मोबाइल नंबर (WhatsApp)</label>
+      <input type="tel" id="phoneNumber" required pattern="[0-9]{10}" inputmode="numeric" placeholder="१० अंकी मोबाइल नंबर">
 
-            <div style="background: #fff8e7; border: 1px dashed var(--gold); padding: 8px; border-radius: 8px; font-size: 0.85rem; color: #8a6d1c; margin-top: 12px; font-weight: bold; text-align: center;">
-                ✨ **विशेष मान:** गुरुवारी सकाळी ७:०० वाजता होणाऱ्या महाआरतीचे मुख्य मानकरी/यजमान आपण असाल.
-            </div>
-            
-            <div class="modal-actions">
-                <button type="button" class="btn-cancel" onclick="closeModal()">रद्द करा</button>
-                <button type="submit" class="btn-submit">संकल्प नोंदवा</button>
-            </div>
-        </form>
-    </div>
+      <label>अन्नदानाचा मेनू</label>
+      <textarea id="foodType" rows="3" required placeholder="उदा. पुरी भाजी, दाल खिचडी, शिरा"></textarea>
+
+      <div class="notice">
+        ✨ <strong>विशेष मान:</strong> गुरुवारी सकाळी ७:०० वाजता होणाऱ्या महाआरतीचे मुख्य मानकरी / यजमान आपण असाल.
+      </div>
+
+      <div class="modal-actions">
+        <button type="button" class="btn-cancel" onclick="closeModal()">रद्द करा</button>
+        <button type="submit" class="btn-submit">संकल्प नोंदवा</button>
+      </div>
+    </form>
+  </div>
 </div>
 
 <script>
-    const SUPABASE_URL = "https://tkftorwnoadfsvknldxw.supabase.co";
-    const SUPABASE_KEY = "sb_publishable_5TGMP5zI5l4anJKhE5CxdQ_zqrHRCmC";
-    const ADMIN_PASSWORD = "admin123";
+const SUPABASE_URL = "https://tkftorwnoadfsvknldxw.supabase.co";
+const SUPABASE_KEY = "sb_publishable_5TGMP5zI5l4anJKhE5CxdQ_zqrHRCmC";
+const ADMIN_PASSWORD = "admin123";
 
-    const GREEN_ID_INSTANCE = "710722741730";
-    const GREEN_API_TOKEN = "cc09209b59c64b49babaed7d19ac0122e744af10ce8d47329f";
-    const TEMPLE_GROUP_CHAT_ID = "120363413708644281@g.us";
+const GREEN_ID_INSTANCE = "710722741730";
+const GREEN_API_TOKEN = "cc09209b59c64b49babaed7d19ac0122e744af10ce8d47329f";
+const TEMPLE_GROUP_CHAT_ID = "120363413708644281@g.us";
 
-    const db = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-    let isAdmin = false;
-    let allBookingsData = [];
+const db = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+let isAdmin = false;
+let allBookingsData = [];
+let audioStarted = false;
 
-    // Instant Play on First Screen Touch
-    let audioStarted = false;
-    function autoPlayMantraOnUserTouch() {
-        if (!audioStarted) {
-            const audio = document.getElementById('mantraAudio');
-            audio.play().then(() => {
-                audioStarted = true;
-                document.getElementById('musicIcon').innerText = "🔊";
-                document.getElementById('musicText').innerText = "मंत्रध्वनी सुरू आहे";
-            }).catch(e => console.log("Interaction needed"));
-        }
+function formatDateToMarathi(dateStr){
+  const dateObj = new Date(dateStr + "T00:00:00");
+  return dateObj.toLocaleDateString("mr-IN",{day:"numeric",month:"long",year:"numeric"});
+}
+
+function getThursdaysList(count=200){
+  const thursdays=[];
+  const date=new Date();
+  date.setHours(12,0,0,0);
+  while(date.getDay()!==4) date.setDate(date.getDate()+1);
+  for(let i=0;i<count;i++){
+    thursdays.push(
+      date.getFullYear()+"-"+String(date.getMonth()+1).padStart(2,"0")+"-"+String(date.getDate()).padStart(2,"0")
+    );
+    date.setDate(date.getDate()+7);
+  }
+  return thursdays;
+}
+
+async function loadCalendar(){
+  try{
+    const {data:bookings,error}=await db.from("thursday_bookings").select("*");
+    if(error){console.error(error); return;}
+    allBookingsData=bookings||[];
+    renderCalendar();
+  }catch(e){console.error("Database connection error:",e);}
+}
+
+function safe(v){
+  return String(v??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]));
+}
+
+function renderCalendar(){
+  const calendarEl=document.getElementById("calendar");
+  const sectionHeader=document.getElementById("sectionHeader");
+  const searchVal=document.getElementById("searchInput").value.toLowerCase().trim();
+  const filterVal=document.getElementById("filterSelect").value;
+  const bookingMap={};
+  allBookingsData.forEach(b=>bookingMap[b.thursday_date]=b);
+
+  calendarEl.innerHTML="";
+  sectionHeader.innerText=filterVal==="past"?"📜 मागील पूर्ण झालेल्या सेवा":"🗓 आगामी अन्नदान सेवा";
+
+  let count=0;
+
+  if(filterVal==="past"){
+    allBookingsData.filter(b=>b.food_type && b.food_type.includes("[COMPLETED]")).forEach(booked=>{
+      const card=document.createElement("div");
+      card.className="card completed";
+      card.innerHTML=`
+        <div class="date-title">🗓 ${safe(formatDateToMarathi(booked.thursday_date))}</div>
+        <span class="badge completed">✅ सेवा पूर्ण झाली</span>
+        <div class="info-text"><strong>अन्नदाते:</strong> ${safe(booked.devotee_name)}</div>
+        <div class="info-text"><strong>मेनू:</strong> ${safe(booked.food_type.replace("[COMPLETED]",""))}</div>`;
+      calendarEl.appendChild(card); count++;
+    });
+    if(count===0) calendarEl.innerHTML='<div class="empty">कोणतीही मागील पूर्ण झालेली सेवा सापडली नाही.</div>';
+    return;
+  }
+
+  getThursdaysList(200).forEach(dateStr=>{
+    const booked=bookingMap[dateStr];
+    if(booked && booked.food_type && booked.food_type.includes("[COMPLETED]")) return;
+    if(filterVal==="available" && booked) return;
+    if(filterVal==="booked" && !booked) return;
+
+    const formattedDate=formatDateToMarathi(dateStr);
+    if(searchVal){
+      const match=formattedDate.toLowerCase().includes(searchVal)
+        ||(booked && String(booked.devotee_name).toLowerCase().includes(searchVal))
+        ||(booked && String(booked.phone_number).includes(searchVal));
+      if(!match) return;
     }
 
-    document.addEventListener('click', autoPlayMantraOnUserTouch, { once: true });
-    document.addEventListener('touchstart', autoPlayMantraOnUserTouch, { once: true });
+    const card=document.createElement("div");
+    card.className=`card ${booked?"booked":"available"}`;
 
-    function getThursdaysList(count = 200) {
-        const thursdays = [];
-        let date = new Date();
-        while (date.getDay() !== 4) {
-            date.setDate(date.getDate() + 1);
-        }
-        for (let i = 0; i < count; i++) {
-            thursdays.push(date.toISOString().split('T')[0]);
-            date.setDate(date.getDate() + 7);
-        }
-        return thursdays;
+    if(booked){
+      card.innerHTML=`
+        <div class="date-title">🗓 ${safe(formattedDate)}</div>
+        <span class="badge booked">बुकिंग पूर्ण</span>
+        <div class="info-text"><strong>अन्नदाते:</strong> ${safe(booked.devotee_name)}</div>
+        <div class="info-text"><strong>मेनू:</strong> ${safe(booked.food_type)}</div>
+        ${isAdmin
+          ? `<div class="info-text"><strong>फोन:</strong> ${safe(booked.phone_number)}</div>
+             <button class="btn-complete" onclick="markServiceCompleted(${Number(booked.id)})">✨ सेवा पूर्ण झाली</button>
+             <button class="btn-delete" onclick="deleteBooking(${Number(booked.id)})">नोंदणी रद्द करा</button>`
+          : `<div class="info-text"><strong>फोन:</strong> ••••••••••</div>`}`;
+    }else{
+      card.innerHTML=`
+        <div class="date-title">🗓 ${safe(formattedDate)}</div>
+        <span class="badge available">🟢 रिक्त आहे</span>
+        <div class="info-text">या गुरुवारी अन्नदान सेवा संकल्पासाठी तारीख उपलब्ध आहे.</div>
+        <button class="btn-book" onclick="openModal('${dateStr}')">हे नाव नोंदवा</button>`;
     }
+    calendarEl.appendChild(card); count++;
+  });
 
-    function formatDateToMarathi(dateStr) {
-        const dateObj = new Date(dateStr);
-        return dateObj.toLocaleDateString('mr-IN', { day: 'numeric', month: 'long', year: 'numeric' });
-    }
+  if(count===0) calendarEl.innerHTML='<div class="empty">तुमच्या शोधानुसार कोणताही डेटा उपलब्ध नाही.</div>';
+}
 
-    async function loadCalendar() {
-        try {
-            const { data: bookings, error } = await db.from('thursday_bookings').select('*');
-            if (error) console.error(error);
-            allBookingsData = bookings || [];
-            renderCalendar();
-        } catch (e) {
-            console.error("Database connection error:", e);
-        }
-    }
 
-    function renderCalendar() {
-        const calendarEl = document.getElementById('calendar');
-        const sectionHeader = document.getElementById('sectionHeader');
-        const searchVal = document.getElementById('searchInput').value.toLowerCase();
-        const filterVal = document.getElementById('filterSelect').value;
+function renderUpcomingHero(){const el=document.getElementById("upcomingHero");if(!el)return;const today=new Date();today.setHours(0,0,0,0);const b=allBookingsData.filter(x=>x.thursday_date&&!(x.food_type||"").includes("[COMPLETED]")&&new Date(x.thursday_date+"T00:00:00")>=today).sort((a,c)=>a.thursday_date.localeCompare(c.thursday_date))[0];if(!b){el.innerHTML="";return;}const txt=`🛕 श्री गजानन महाराज संस्थान वडशेद (जुने)\n\n🙏 गुरुवार अन्नदान सेवा\n🗓 ${formatDateToMarathi(b.thursday_date)}\n👤 अन्नदाता: ${b.devotee_name}\n🍱 मेनू: ${b.food_type}\n\n॥ गण गण गणात बोते ॥`;el.innerHTML=`<section class="upcoming-hero"><div class="upcoming-kicker">✨ आगामी अन्नदान सेवा</div><div class="upcoming-date">${safe(formatDateToMarathi(b.thursday_date))}</div><div class="upcoming-meta"><span class="meta-pill">👤 ${safe(b.devotee_name)}</span><span class="meta-pill">🍱 ${safe(b.food_type)}</span><span class="meta-pill">🕖 महाआरती ७:००</span></div><div class="share-row"><button class="share-btn" onclick='shareService(${JSON.stringify(txt)})'>📲 WhatsApp वर Share</button></div></section>`;}
+async function shareService(text){try{if(navigator.share){await navigator.share({title:"श्री गजानन महाराज अन्नदान सेवा",text});return;}}catch(e){}window.open("https://wa.me/?text="+encodeURIComponent(text),"_blank");}
 
-        const bookingMap = {};
-        allBookingsData.forEach(b => { bookingMap[b.thursday_date] = b; });
+function filterCalendar(){renderCalendar();renderUpcomingHero();}
 
-        const thursdays = getThursdaysList();
-        calendarEl.innerHTML = "";
+function toggleAdmin(){
+  if(!isAdmin){
+    const pwd=prompt("प्रशासक पासवर्ड टाका:");
+    if(pwd===ADMIN_PASSWORD){
+      isAdmin=true;
+      document.getElementById("toggleAdminBtn").innerText="लॉगआउट";
+      alert("प्रशासक मोड सुरू झाला आहे!");
+      renderCalendar();
+    }else if(pwd!==null) alert("चुकीचा पासवर्ड!");
+  }else{
+    isAdmin=false;
+    document.getElementById("toggleAdminBtn").innerText="प्रशासक लॉगिन";
+    renderCalendar();
+  }
+}
 
-        if (filterVal === 'past') {
-            sectionHeader.innerText = "📜 मागील पूर्ण झालेल्या सेवा (Past / Completed)";
-        } else {
-            sectionHeader.innerText = "🗓 आगामी अन्नदान सेवा (Upcoming Thursdays)";
-        }
+function openModal(dateStr){
+  document.getElementById("selectedDate").value=dateStr;
+  document.getElementById("modalDateDisplay").innerText=formatDateToMarathi(dateStr);
+  document.getElementById("bookingModal").style.display="flex";
+}
+function closeModal(){
+  document.getElementById("bookingModal").style.display="none";
+  document.getElementById("bookingForm").reset();
+}
 
-        let count = 0;
+async function submitBooking(event){
+  event.preventDefault();
+  const dateStr=document.getElementById("selectedDate").value;
+  const name=document.getElementById("devoteeName").value.trim();
+  const phone=document.getElementById("phoneNumber").value.trim();
+  const food=document.getElementById("foodType").value.trim();
 
-        if (filterVal === 'past') {
-            allBookingsData.filter(b => b.food_type && b.food_type.includes("[COMPLETED]")).forEach(booked => {
-                const card = document.createElement('div');
-                card.className = "card completed";
-                card.innerHTML = `
-                    <div class="date-title">🗓 ${formatDateToMarathi(booked.thursday_date)}</div>
-                    <span class="badge completed">✅ सेवा पूर्ण झाली</span>
-                    <div class="info-text"><strong>अन्नदाते:</strong> ${booked.devotee_name}</div>
-                    <div class="info-text"><strong>मेनू:</strong> ${booked.food_type.replace("[COMPLETED]", "")}</div>
-                `;
-                calendarEl.appendChild(card);
-                count++;
-            });
-            if (count === 0) calendarEl.innerHTML = "<p>कोणतीही मागील पूर्ण झालेली सेवा सापडली नाही.</p>";
-            return;
-        }
+  // Extra client-side check to reduce accidental double booking.
+  const existing=allBookingsData.find(b=>b.thursday_date===dateStr && !(b.food_type||"").includes("[COMPLETED]"));
+  if(existing){alert("ही तारीख आधीच नोंदणी झालेली आहे."); closeModal(); loadCalendar(); return;}
 
-        thursdays.forEach(dateStr => {
-            const booked = bookingMap[dateStr];
-            const formattedDate = formatDateToMarathi(dateStr);
+  const {error}=await db.from("thursday_bookings").insert([
+    {thursday_date:dateStr,devotee_name:name,phone_number:phone,food_type:food}
+  ]);
 
-            if (booked && booked.food_type && booked.food_type.includes("[COMPLETED]")) return;
-
-            if (filterVal === 'available' && booked) return;
-            if (filterVal === 'booked' && !booked) return;
-
-            if (searchVal) {
-                const match = formattedDate.toLowerCase().includes(searchVal) ||
-                    (booked && booked.devotee_name.toLowerCase().includes(searchVal)) ||
-                    (booked && booked.phone_number.includes(searchVal));
-                if (!match) return;
-            }
-
-            const card = document.createElement('div');
-            card.className = `card ${booked ? 'booked' : 'available'}`;
-            
-            let content = `<div class="date-title">🗓 ${formattedDate}</div>`;
-            
-            if (booked) {
-                content += `<span class="badge booked">बुकिंग पूर्ण (Booked)</span>`;
-                content += `<div class="info-text"><strong>अन्नदाते:</strong> ${booked.devotee_name}</div>`;
-                content += `<div class="info-text"><strong>मेनू:</strong> ${booked.food_type}</div>`;
-                
-                if (isAdmin) {
-                    content += `<div class="info-text"><strong>फोन:</strong> ${booked.phone_number}</div>`;
-                    content += `<button class="btn-complete" onclick="markServiceCompleted(${booked.id}, '${dateStr}', '${booked.devotee_name}', '${booked.phone_number}', '${booked.food_type}')">✨ अन्नदान सेवा पूर्ण झाली (Send WhatsApp Photo)</button>`;
-                    content += `<button class="btn-delete" onclick="deleteBooking(${booked.id})">नोंदणी रद्द करा</button>`;
-                } else {
-                    content += `<div class="info-text"><strong>फोन:</strong> ••••••••••</div>`;
-                }
-            } else {
-                content += `<span class="badge available">रिक्त आहे (Available)</span>`;
-                content += `<button class="btn-book" onclick="openModal('${dateStr}')">हे नाव नोंदवा</button>`;
-            }
-            
-            card.innerHTML = content;
-            calendarEl.appendChild(card);
-            count++;
-        });
-
-        if (count === 0) calendarEl.innerHTML = "<p>कोणताही डेटा उपलब्ध नाही.</p>";
-    }
-
-    function filterCalendar() { renderCalendar(); }
-
-    function toggleAdmin() {
-        if (!isAdmin) {
-            const pwd = prompt("प्रशासक पासवर्ड टाका:");
-            if (pwd === ADMIN_PASSWORD) {
-                isAdmin = true;
-                document.getElementById('toggleAdminBtn').innerText = "लॉगआउट (Logout)";
-                alert("प्रशासक मोड सुरू झाला आहे!");
-                renderCalendar();
-            } else if (pwd !== null) alert("चुकीचा पासवर्ड!");
-        } else {
-            isAdmin = false;
-            document.getElementById('toggleAdminBtn').innerText = "प्रशासक लॉगिन (Admin)";
-            renderCalendar();
-        }
-    }
-
-    function openModal(dateStr) {
-        document.getElementById('selectedDate').value = dateStr;
-        document.getElementById('modalDateDisplay').innerText = formatDateToMarathi(dateStr);
-        document.getElementById('bookingModal').style.display = 'flex';
-    }
-
-    function closeModal() {
-        document.getElementById('bookingModal').style.display = 'none';
-        document.getElementById('bookingForm').reset();
-    }
-
-    async function submitBooking(event) {
-        event.preventDefault();
-        const dateStr = document.getElementById('selectedDate').value;
-        const name = document.getElementById('devoteeName').value;
-        const phone = document.getElementById('phoneNumber').value;
-        const food = document.getElementById('foodType').value;
-
-        const { error } = await db.from('thursday_bookings').insert([
-            { thursday_date: dateStr, devotee_name: name, phone_number: phone, food_type: food }
-        ]);
-
-        if (error) {
-            alert("त्रुटी आली: " + error.message);
-        } else {
-            confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
-            alert("श्री गजानन महाराज प्रसन्न! तुमची नोंदणी यशस्वी झाली आहे.");
-            sendDirectWhatsAppGroupMessage(dateStr, name, phone, food);
-            closeModal();
-            loadCalendar();
-        }
-    }
-
-    async function deleteBooking(id) {
-        if (confirm("ही नोंदणी डिलीट करायची का?")) {
-            await db.from('thursday_bookings').delete().eq('id', id);
-            loadCalendar();
-        }
-    }
-
-    async function sendDirectWhatsAppGroupMessage(date, name, phone, food) {
-        const formattedDate = formatDateToMarathi(date);
-        const groupMessageText = `🛕 *नवीन अन्नदान सेवा नोंदणी!*\n🗓 *दिनांक:* ${formattedDate}\n👤 *अन्नदाते:* ${name}\n📞 *संपर्क:* ${phone}\n🍱 *मेनू:* ${food}`;
-        const groupUrl = `https://api.green-api.com/waInstance${GREEN_ID_INSTANCE}/sendMessage/${GREEN_API_TOKEN}`;
-
-        let cleanPhone = phone.replace(/\D/g, '');
-        if (cleanPhone.length === 10) cleanPhone = "91" + cleanPhone;
-        const devoteeChatId = `${cleanPhone}@c.us`;
-
-        const devoteeMessageText = `जय गजानन! 🙏\n\n*श्री गजानन महाराज संस्थान वडशेद (जुने)*\n\nसादर प्रणाम *${name}* जी,\nतुमची गुरुवार अन्नदान सेवा नोंदणी यशस्वी झाली आहे! 🎉\n\n🗓 *दिनांक:* ${formattedDate}\n🍱 *मेनू:* ${food}\n🛕 *महाआरती:* गुरुवारी सकाळी ७:०० वाजता\n\n*(टीप: अन्नदानाच्या एक दिवस आधी बुधवारी तुम्हाला रिमाइंडर पाठवला जाईल.)*`;
-
-        try {
-            await fetch(groupUrl, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ chatId: TEMPLE_GROUP_CHAT_ID, message: groupMessageText }) });
-            await fetch(groupUrl, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ chatId: devoteeChatId, message: devoteeMessageText }) });
-        } catch (err) { console.error(err); }
-    }
-
-    async function markServiceCompleted(id, dateStr, name, phone, currentFood) {
-        if (confirm(`तुम्हाला ${name} यांची सेवा पूर्ण झाली म्हणून चिन्हांकित करायचे आहे का?`)) {
-            await db.from('thursday_bookings').update({ food_type: currentFood + " [COMPLETED]" }).eq('id', id);
-            loadCalendar();
-        }
-    }
-
-    function toggleMusic() {
-        const audio = document.getElementById('mantraAudio');
-        const icon = document.getElementById('musicIcon');
-        const text = document.getElementById('musicText');
-
-        if (audio.paused) {
-            audio.play().then(() => {
-                audioStarted = true;
-                icon.innerText = "🔊";
-                text.innerText = "मंत्रध्वनी सुरू आहे";
-            }).catch(() => {
-                alert("कृपया स्क्रीनवर कुठेही स्पर्श करा.");
-            });
-        } else {
-            audio.pause();
-            icon.innerText = "🪕";
-            text.innerText = "मंत्रध्वनी सुरू करा";
-        }
-    }
-
+  if(error){
+    alert("त्रुटी आली: "+error.message);
+  }else{
+    if(typeof confetti==="function") confetti({particleCount:120,spread:75,origin:{y:.6}});
+    alert("श्री गजानन महाराज प्रसन्न! तुमची नोंदणी यशस्वी झाली आहे.");
+    // Preserve the existing WhatsApp automation.
+    sendDirectWhatsAppGroupMessage(dateStr,name,phone,food);
+    closeModal();
     loadCalendar();
+  }
+}
+
+async function deleteBooking(id){
+  if(confirm("ही नोंदणी डिलीट करायची का?")){
+    const {error}=await db.from("thursday_bookings").delete().eq("id",id);
+    if(error) alert("डिलीट करताना त्रुटी आली: "+error.message);
+    loadCalendar();
+  }
+}
+
+async function sendDirectWhatsAppGroupMessage(date,name,phone,food){
+  const formattedDate=formatDateToMarathi(date);
+  const groupMessageText=`🛕 *नवीन अन्नदान सेवा नोंदणी!*\n🗓 *दिनांक:* ${formattedDate}\n👤 *अन्नदाते:* ${name}\n📞 *संपर्क:* ${phone}\n🍱 *मेनू:* ${food}`;
+  const groupUrl=`https://api.green-api.com/waInstance${GREEN_ID_INSTANCE}/sendMessage/${GREEN_API_TOKEN}`;
+
+  let cleanPhone=phone.replace(/\D/g,"");
+  if(cleanPhone.length===10) cleanPhone="91"+cleanPhone;
+  const devoteeChatId=`${cleanPhone}@c.us`;
+
+  const devoteeMessageText=`जय गजानन! 🙏\n\n*श्री गजानन महाराज संस्थान वडशेद (जुने)*\n\nसादर प्रणाम *${name}* जी,\nतुमची गुरुवार अन्नदान सेवा नोंदणी यशस्वी झाली आहे! 🎉\n\n🗓 *दिनांक:* ${formattedDate}\n🍱 *मेनू:* ${food}\n🛕 *महाआरती:* गुरुवारी सकाळी ७:०० वाजता\n\n*(टीप: अन्नदानाच्या एक दिवस आधी बुधवारी तुम्हाला रिमाइंडर पाठवला जाईल.)*`;
+
+  try{
+    await fetch(groupUrl,{
+      method:"POST",
+      headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({chatId:TEMPLE_GROUP_CHAT_ID,message:groupMessageText})
+    });
+    await fetch(groupUrl,{
+      method:"POST",
+      headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({chatId:devoteeChatId,message:devoteeMessageText})
+    });
+  }catch(err){console.error("WhatsApp error:",err);}
+}
+
+async function markServiceCompleted(id){
+  const booking=allBookingsData.find(b=>b.id===id);
+  if(!booking) return;
+  if(confirm(`तुम्हाला ${booking.devotee_name} यांची सेवा पूर्ण झाली म्हणून चिन्हांकित करायचे आहे का?`)){
+    const {error}=await db.from("thursday_bookings")
+      .update({food_type:booking.food_type+" [COMPLETED]"}).eq("id",id);
+    if(error) alert("अपडेट करताना त्रुटी आली: "+error.message);
+    loadCalendar();
+  }
+}
+
+function setMusicUI(on){
+  document.getElementById("musicIcon").innerText=on?"🔊":"🔇";
+  document.getElementById("musicText").innerText=on?"मंत्रध्वनी सुरू आहे":"मंत्रध्वनी";
+}
+
+function startMusic(){
+  const audio=document.getElementById("mantraAudio");
+  return audio.play().then(()=>{
+    audioStarted=true; setMusicUI(true);
+  }).catch(()=>{setMusicUI(false);});
+}
+
+function enterTemple(){
+  document.getElementById("welcomeScreen").style.display="none";
+  startMusic();
+}
+
+function toggleMusic(){
+  const audio=document.getElementById("mantraAudio");
+  if(audio.paused){
+    startMusic();
+  }else{
+    audio.pause(); setMusicUI(false);
+  }
+}
+
+// If the visitor has already interacted with the page, attempt autoplay;
+// browsers may still block it, so the welcome screen remains the reliable path.
+window.addEventListener("load",()=>{
+  loadCalendar();
+  setTimeout(()=>{ if(!audioStarted) startMusic(); },400);
+});
 </script>
 </body>
 </html>
