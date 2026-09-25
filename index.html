@@ -376,6 +376,7 @@ async function loadCalendar(){
     if(error){console.error(error); return;}
     allBookingsData=bookings||[];
     renderCalendar();
+    renderUpcomingHero();
   }catch(e){console.error("Database connection error:",e);}
 }
 
@@ -453,7 +454,43 @@ function renderCalendar(){
 }
 
 
-function renderUpcomingHero(){const el=document.getElementById("upcomingHero");if(!el)return;const today=new Date();today.setHours(0,0,0,0);const b=allBookingsData.filter(x=>x.thursday_date&&!(x.food_type||"").includes("[COMPLETED]")&&new Date(x.thursday_date+"T00:00:00")>=today).sort((a,c)=>a.thursday_date.localeCompare(c.thursday_date))[0];if(!b){el.innerHTML="";return;}const txt=`🛕 श्री गजानन महाराज संस्थान वडशेद (जुने)\n\n🙏 गुरुवार अन्नदान सेवा\n🗓 ${formatDateToMarathi(b.thursday_date)}\n👤 अन्नदाता: ${b.devotee_name}\n🍱 मेनू: ${b.food_type}\n\n॥ गण गण गणात बोते ॥`;el.innerHTML=`<section class="upcoming-hero"><div class="upcoming-kicker">✨ आगामी अन्नदान सेवा</div><div class="upcoming-date">${safe(formatDateToMarathi(b.thursday_date))}</div><div class="upcoming-meta"><span class="meta-pill">👤 ${safe(b.devotee_name)}</span><span class="meta-pill">🍱 ${safe(b.food_type)}</span><span class="meta-pill">🕖 महाआरती ७:००</span></div><div class="share-row"><button class="share-btn" onclick='shareService(${JSON.stringify(txt)})'>📲 WhatsApp वर Share</button></div></section>`;}
+function getNextThursdayDate(){
+  const d=new Date();
+  d.setHours(0,0,0,0);
+  const daysUntil=(4-d.getDay()+7)%7;
+  if(daysUntil===0 && new Date().getHours()>=20) d.setDate(d.getDate()+7);
+  else d.setDate(d.getDate()+daysUntil);
+  return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");
+}
+
+function renderUpcomingHero(){
+  const el=document.getElementById("upcomingHero");
+  if(!el)return;
+  const today=new Date(); today.setHours(0,0,0,0);
+  const b=allBookingsData
+    .filter(x=>x.thursday_date && !(x.food_type||"").includes("[COMPLETED]") && new Date(x.thursday_date+"T00:00:00")>=today)
+    .sort((a,c)=>a.thursday_date.localeCompare(c.thursday_date))[0];
+
+  const dateStr=b?.thursday_date || getNextThursdayDate();
+  const hasBooking=!!b;
+  const dateText=formatDateToMarathi(dateStr);
+  const txt=hasBooking
+    ? `🛕 श्री गजानन महाराज संस्थान वडशेद (जुने)\n\n🙏 गुरुवार अन्नदान सेवा\n🗓 ${dateText}\n👤 अन्नदाता: ${b.devotee_name}\n🍱 मेनू: ${b.food_type}\n\n॥ गण गण गणात बोते ॥`
+    : `🛕 श्री गजानन महाराज संस्थान वडशेद (जुने)\n\n🙏 आगामी गुरुवार अन्नदान सेवा\n🗓 ${dateText}\n\nअन्नदान सेवा संकल्पासाठी आपले नाव नोंदवा.\n\n॥ गण गण गणात बोते ॥`;
+
+  el.innerHTML=`<section class="upcoming-hero">
+    <div class="upcoming-kicker">✨ ${hasBooking ? "आगामी अन्नदान सेवा" : "पुढील गुरुवार — अन्नदान सेवा"}</div>
+    <div class="upcoming-date">${safe(dateText)}</div>
+    <div class="upcoming-meta">
+      ${hasBooking ? `<span class="meta-pill">👤 ${safe(b.devotee_name)}</span><span class="meta-pill">🍱 ${safe(b.food_type)}</span>` : `<span class="meta-pill">🟢 अन्नदानासाठी तारीख उपलब्ध</span>`}
+      <span class="meta-pill">🕖 महाआरती ७:००</span>
+    </div>
+    <div class="share-row">
+      ${!hasBooking ? `<button class="share-btn" onclick="openModal('${dateStr}')">🙏 अन्नदान नोंदणी</button>` : ""}
+      <button class="share-btn" onclick='shareService(${JSON.stringify(txt)})'>📲 WhatsApp वर Share</button>
+    </div>
+  </section>`;
+}
 async function shareService(text){try{if(navigator.share){await navigator.share({title:"श्री गजानन महाराज अन्नदान सेवा",text});return;}}catch(e){}window.open("https://wa.me/?text="+encodeURIComponent(text),"_blank");}
 
 function filterCalendar(){renderCalendar();renderUpcomingHero();}
