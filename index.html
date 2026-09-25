@@ -230,7 +230,57 @@ button{cursor:pointer}
   .calendar-grid{grid-template-columns:1fr}
 }
 
-.upcoming-hero{margin:0 0 22px;padding:22px;border-radius:25px;border:1px solid rgba(231,191,99,.42);background:radial-gradient(circle at 85% 20%,rgba(231,191,99,.18),transparent 32%),linear-gradient(135deg,rgba(92,56,18,.42),rgba(255,255,255,.045));box-shadow:0 18px 55px rgba(0,0,0,.28)}.upcoming-kicker{color:var(--gold);font-size:.82rem;font-weight:700}.upcoming-date{font-size:clamp(1.4rem,4vw,2rem);color:#fff1c5;font-weight:700;margin:6px 0}.upcoming-meta{display:flex;flex-wrap:wrap;gap:8px;margin-top:9px}.meta-pill{padding:7px 10px;border-radius:999px;background:rgba(255,255,255,.07);border:1px solid var(--line);color:#eadcc7;font-size:.82rem}.share-row{display:flex;gap:9px;flex-wrap:wrap;margin-top:15px}.share-btn{border:1px solid rgba(231,191,99,.4);background:rgba(231,191,99,.1);color:#ffe9a9;border-radius:12px;padding:10px 13px;font-weight:700}.completed-photo{width:100%;aspect-ratio:16/10;object-fit:cover;border-radius:15px;margin-top:12px;border:1px solid var(--line)}.photo-input{margin-top:8px;color:#d9c9b0;font-size:.8rem}
+.upcoming-hero{
+  position:relative;overflow:hidden;margin:0 0 28px;border-radius:30px;
+  border:1px solid rgba(246,205,102,.72);
+  background:linear-gradient(145deg,rgba(31,13,4,.97),rgba(82,42,7,.88) 48%,rgba(18,7,2,.98));
+  box-shadow:0 28px 90px rgba(0,0,0,.62),inset 0 0 70px rgba(255,205,74,.07);
+}
+.upcoming-hero:before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 50% 0%,rgba(255,213,101,.22),transparent 34%),linear-gradient(180deg,transparent 55%,rgba(0,0,0,.3));pointer-events:none}
+.upcoming-hero:after{content:"ॐ";position:absolute;right:18px;top:10px;color:rgba(255,218,116,.18);font-size:7rem;line-height:1;pointer-events:none}
+.upcoming-inner{position:relative;z-index:2;padding:28px 24px 24px;text-align:center}
+.upcoming-kicker{display:inline-flex;align-items:center;gap:9px;padding:7px 15px;border-radius:999px;border:1px solid rgba(255,222,126,.55);background:rgba(255,194,51,.10);color:#ffe39a;font-size:.82rem;font-weight:800;letter-spacing:.8px;box-shadow:0 5px 25px rgba(0,0,0,.22)}
+.upcoming-kicker:before{content:"✦";color:#fff0ad}
+.upcoming-title{font-family:'Tiro Devanagari Marathi',serif;color:#fff0bd;font-size:clamp(1.65rem,6vw,2.45rem);line-height:1.2;margin:13px 0 4px;text-shadow:0 4px 24px #000}
+.upcoming-subtitle{color:#e7d2af;font-size:.86rem;margin:0 0 17px}
+.upcoming-photo{position:relative;width:145px;height:145px;margin:0 auto 19px;padding:6px;border-radius:50%;background:conic-gradient(#fff0ad,#b87817,#ffe28b,#8f5810,#fff0ad);box-shadow:0 0 0 2px rgba(255,235,161,.12),0 14px 42px rgba(0,0,0,.55),0 0 42px rgba(241,193,65,.23)}
+.upcoming-photo img{width:100%;height:100%;display:block;object-fit:cover;border-radius:50%;border:5px solid #291306}
+.upcoming-photo:after{content:"॥ गण गण गणात बोते ॥";position:absolute;left:50%;bottom:-24px;transform:translateX(-50%);white-space:nowrap;color:#e5c36d;font-size:.66rem;text-shadow:0 2px 8px #000}
+.upcoming-date-label{color:#e8cf9e;font-size:.8rem;margin-top:5px}
+.upcoming-date{display:inline-block;color:#fff;font-size:clamp(1.25rem,5vw,1.8rem);font-weight:800;margin:4px 0 5px;padding:7px 18px;border-radius:15px;background:rgba(0,0,0,.27);border:1px solid rgba(255,220,125,.25);box-shadow:inset 0 0 18px rgba(255,208,73,.05)}
+.upcoming-date span{color:#ffe082}
+.donor-line{margin:10px auto 0;color:#eadcc7;font-size:1rem;max-width:600px}
+.donor-line strong{color:#ffd86f}
+.donor-name{display:block;margin-top:3px;color:#fff4cf;font-size:1.12rem;font-weight:800}
+.upcoming-status{display:inline-block;margin-top:9px;padding:6px 12px;border-radius:999px;color:#ffd978;background:rgba(255,203,70,.09);border:1px solid rgba(255,215,111,.28);font-size:.75rem;font-weight:800}
+.share-row{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-top:18px}
+.share-btn{border:1px solid rgba(255,218,118,.55);background:rgba(255,255,255,.07);color:#ffe9a9;border-radius:14px;padding:11px 17px;font-weight:800;box-shadow:0 9px 24px rgba(0,0,0,.25);transition:.2s ease}
+.share-btn:hover{transform:translateY(-2px)}
+.share-btn.primary{background:linear-gradient(135deg,#9b5d0f,#f0c55b);color:#1d0d03;border-color:#ffe69b;box-shadow:0 10px 28px rgba(211,154,34,.28)}
+.upcoming-note{margin:17px auto 0;color:#d8c4a1;font-size:.78rem;max-width:650px;line-height:1.55}
+.completed-photo{width:100%;aspect-ratio:16/10;object-fit:cover;border-radius:15px;margin-top:12px;border:1px solid var(--line)}.photo-input{margin-top:8px;color:#d9c9b0;font-size:.8rem}
+
+/* Mobile-first temple background: the supplied temple image fills the phone viewport cleanly. */
+@media(max-width:650px){
+  body{background-attachment:scroll;background-position:center top;background-size:cover}
+  body:before{background:linear-gradient(180deg,rgba(4,2,1,.55),rgba(9,4,1,.86) 48%,rgba(7,3,1,.96))}
+  .page{width:calc(100% - 8px);margin:4px auto 25px}
+  .shell{border-radius:25px;background:rgba(12,6,2,.52)}
+  .topbar{padding:11px 12px}
+  .brand-mini span{font-size:.78rem}
+  .hero{padding:28px 14px 25px}
+  .portrait-wrap{width:155px;height:155px}
+  .hero h1{font-size:1.65rem}
+  .hero p{font-size:.9rem}
+  .content{padding:0 10px 22px}
+  .info-strip{grid-template-columns:1fr;gap:8px}
+  .upcoming-inner{padding:23px 14px 20px}
+  .upcoming-photo{width:125px;height:125px}
+  .upcoming-title{font-size:1.65rem}
+  .upcoming-date{font-size:1.22rem;padding:7px 12px}
+  .donor-name{font-size:1rem}
+  .share-btn{width:100%;max-width:310px}
+}
 </style>
 </head>
 
@@ -243,7 +293,7 @@ button{cursor:pointer}
     <div class="small">॥ श्री गजानन महाराज ॥</div>
     <h2>अन्नदान सेवा दालन</h2>
     <p>श्री गजानन महाराज संस्थान वडशेद (जुने) यांच्या गुरुवार अन्नदान सेवेसाठी स्वागत.</p>
-    <button class="enter-btn" onclick="enterTemple()">🙏 दर्शनासाठी प्रवेश करा</button>
+    <button class="enter-btn" onclick="enterTemple()">🙏 नोंदणीसाठी प्रवेश करा</button>
     <div style="margin-top:12px;color:#bcae9b;font-size:.78rem">प्रवेश करताच मंत्रध्वनी सुरू होईल.</div>
   </div>
 </div>
@@ -277,7 +327,7 @@ button{cursor:pointer}
       </div>
       <div class="eyebrow">🪔 गुरुवार अन्नदान • डिजिटल सेवा</div>
       <h1>॥ श्री गजानन महाराज संस्थान वडशेद (जुने) ॥</h1>
-      <p>गुरुवार महाप्रसाद / अन्नदान सेवा नोंदणी दालन</p>
+      <p>गुरुवार अन्नदान सेवा • संकल्प नोंदणी दालन</p>
       <div class="divider">ॐ</div>
     </section>
 
@@ -474,23 +524,34 @@ function renderUpcomingHero(){
   const dateStr=b?.thursday_date || getNextThursdayDate();
   const hasBooking=!!b;
   const dateText=formatDateToMarathi(dateStr);
+  const donor=hasBooking ? safe(b.devotee_name) : "अन्नदाता होण्यासाठी आपले नाव नोंदवा";
   const txt=hasBooking
-    ? `🛕 श्री गजानन महाराज संस्थान वडशेद (जुने)\n\n🙏 गुरुवार अन्नदान सेवा\n🗓 ${dateText}\n👤 अन्नदाता: ${b.devotee_name}\n🍱 मेनू: ${b.food_type}\n\n॥ गण गण गणात बोते ॥`
-    : `🛕 श्री गजानन महाराज संस्थान वडशेद (जुने)\n\n🙏 आगामी गुरुवार अन्नदान सेवा\n🗓 ${dateText}\n\nअन्नदान सेवा संकल्पासाठी आपले नाव नोंदवा.\n\n॥ गण गण गणात बोते ॥`;
+    ? `🛕 श्री गजानन महाराज संस्थान वडशेद (जुने)\n\n✨ गुरुवार विशेष अन्नदान सेवा\n🗓 ${dateText}\n👤 अन्नदाता: ${b.devotee_name}\n\n॥ गण गण गणात बोते ॥`
+    : `🛕 श्री गजानन महाराज संस्थान वडशेद (जुने)\n\n✨ आगामी गुरुवार विशेष अन्नदान सेवा\n🗓 ${dateText}\n\n🙏 अन्नदान सेवा संकल्पासाठी आपले नाव नोंदवा.\n॥ गण गण गणात बोते ॥`;
 
   el.innerHTML=`<section class="upcoming-hero">
-    <div class="upcoming-kicker">✨ ${hasBooking ? "आगामी अन्नदान सेवा" : "पुढील गुरुवार — अन्नदान सेवा"}</div>
-    <div class="upcoming-date">${safe(dateText)}</div>
-    <div class="upcoming-meta">
-      ${hasBooking ? `<span class="meta-pill">👤 ${safe(b.devotee_name)}</span><span class="meta-pill">🍱 ${safe(b.food_type)}</span>` : `<span class="meta-pill">🟢 अन्नदानासाठी तारीख उपलब्ध</span>`}
-      <span class="meta-pill">🕖 महाआरती ७:००</span>
-    </div>
-    <div class="share-row">
-      ${!hasBooking ? `<button class="share-btn" onclick="openModal('${dateStr}')">🙏 अन्नदान नोंदणी</button>` : ""}
-      <button class="share-btn" onclick='shareService(${JSON.stringify(txt)})'>📲 WhatsApp वर Share</button>
+    <div class="upcoming-inner">
+      <div class="upcoming-photo" aria-label="श्री गजानन महाराज">
+        <img src="gajanan.jpg" alt="श्री गजानन महाराज">
+      </div>
+      <div class="upcoming-kicker">✨ गुरुवार विशेष</div>
+      <h2 class="upcoming-title">अन्नदान सेवा</h2>
+      <p class="upcoming-subtitle">॥ श्री गजानन महाराज संस्थान वडशेद (जुने) ॥</p>
+      <div class="upcoming-date-label">पुढील गुरुवार</div>
+      <div class="upcoming-date">🗓 <span>${safe(dateText)}</span></div>
+      <div class="donor-line">👤 <strong>अन्नदाता</strong>
+        <span class="donor-name">${donor}</span>
+      </div>
+      ${hasBooking ? `<div class="upcoming-status">🙏 या गुरुवारची सेवा नोंदणी झाली आहे</div>` : `<div class="upcoming-status">🪔 ही तारीख अन्नदानासाठी उपलब्ध आहे</div>`}
+      <div class="share-row">
+        ${!hasBooking ? `<button class="share-btn primary" onclick="openModal('${dateStr}')">🙏 अन्नदान नोंदणी करा</button>` : ""}
+        <button class="share-btn" onclick='shareService(${JSON.stringify(txt)})'>📲 WhatsApp वर शेअर करा</button>
+      </div>
+      <div class="upcoming-note">अन्नदान हा सेवाभावाचा सुंदर संकल्प आहे. 🙏<br>॥ गण गण गणात बोते ॥</div>
     </div>
   </section>`;
 }
+
 async function shareService(text){try{if(navigator.share){await navigator.share({title:"श्री गजानन महाराज अन्नदान सेवा",text});return;}}catch(e){}window.open("https://wa.me/?text="+encodeURIComponent(text),"_blank");}
 
 function filterCalendar(){renderCalendar();renderUpcomingHero();}
