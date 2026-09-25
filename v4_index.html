@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="mr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#120b06">
+<title>श्री गजानन महाराज संस्थान वडशेद - गुरुवार अन्नदान सेवा</title>
+<link href="https://fonts.googleapis.com/css2?family=Tiro+Devanagari+Marathi:wght@400;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+<style>
+:root{
+  --gold:#e7bf63;
+  --gold2:#fff0b0;
+  --saffron:#c97720;
+  --deep:#120b06;
+  --deep2:#21130a;
+  --cream:#fffaf0;
+  --muted:#d9c9b0;
+  --green:#2d8a58;
+  --red:#b83a32;
+  --glass:rgba(20,12,7,.70);
+  --line:rgba(231,191,99,.24);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  min-height:100vh;
+  color:var(--cream);
+  font-family:'Tiro Devanagari Marathi','Poppins',serif;
+  background:#0c0805 url("temple-bg.jpg") center/cover fixed no-repeat;
+  position:relative;
+}
+body:before{
+  content:"";
+  position:fixed; inset:0; z-index:-2;
+  background:
+    linear-gradient(180deg,rgba(5,3,2,.62),rgba(12,7,3,.82) 45%,rgba(8,5,3,.94)),
+    radial-gradient(circle at 50% 10%,rgba(232,191,99,.16),transparent 36%);
+}
+body:after{
+  content:""; position:fixed; inset:0; z-index:-1; pointer-events:none;
+  background-image:radial-gradient(rgba(255,240,176,.11) 1px,transparent 1px);
+  background-size:28px 28px; opacity:.22;
+}
+button,input,textarea,select{font:inherit}
+button{cursor:pointer}
+.page{
+  width:min(1180px,calc(100% - 24px));
+  margin:18px auto 45px;
+}
+.shell{
+  border:1px solid var(--line);
+  background:rgba(12,7,3,.58);
+  backdrop-filter:blur(18px);
+  -webkit-backdrop-filter:blur(18px);
+  border-radius:30px;
+  box-shadow:0 30px 90px rgba(0,0,0,.55),inset 0 1px rgba(255,255,255,.08);
+  overflow:hidden;
+}
+.topbar{
+  display:flex;justify-content:space-between;align-items:center;gap:12px;
+  padding:15px 18px;border-bottom:1px solid var(--line);
+  background:rgba(8,5,3,.58);
+}
+.brand-mini{display:flex;align-items:center;gap:10px;color:var(--gold2);font-weight:700}
+.brand-mark{
+  width:38px;height:38px;border:1px solid var(--gold);border-radius:50%;
+  display:grid;place-items:center;background:rgba(231,191,99,.10);
+  box-shadow:0 0 22px rgba(231,191,99,.18);
+}
+.top-actions{display:flex;gap:9px;flex-wrap:wrap}
+.btn{
+  border:1px solid var(--line);border-radius:999px;padding:10px 15px;
+  color:var(--cream);background:rgba(255,255,255,.07);
+  transition:.25s ease;box-shadow:0 8px 25px rgba(0,0,0,.18);
+}
+.btn:hover{transform:translateY(-1px);background:rgba(255,255,255,.12)}
+.btn-gold{border-color:rgba(231,191,99,.65);background:linear-gradient(135deg,#9e681d,#e7bf63);color:#1b1006;font-weight:700}
+.btn-admin{background:rgba(0,0,0,.28)}
+.hero{padding:42px 24px 32px;text-align:center}
+.portrait-wrap{
+  width:205px;height:205px;margin:0 auto 20px;position:relative;
+}
+.portrait-wrap:before{
+  content:"";position:absolute;inset:-9px;border-radius:50%;
+  background:conic-gradient(from 0deg,#8f5c15,#ffe59a,#a76a18,#fff0b0,#8f5c15);
+  animation:spin 12s linear infinite;
+  box-shadow:0 0 45px rgba(231,191,99,.35);
+}
+.portrait-wrap:after{
+  content:"";position:absolute;inset:-18px;border-radius:50%;
+  border:1px solid rgba(255,224,137,.25);
+  box-shadow:0 0 40px rgba(231,191,99,.15);
+}
+.portrait{
+  position:relative;z-index:1;width:100%;height:100%;object-fit:cover;
+  border-radius:50%;border:5px solid #25170c;box-shadow:0 15px 40px #000;
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+.eyebrow{
+  display:inline-flex;align-items:center;gap:8px;padding:7px 14px;border-radius:999px;
+  border:1px solid var(--line);background:rgba(231,191,99,.08);
+  color:var(--gold2);font-size:.9rem;
+}
+.hero h1{
+  margin:15px auto 8px;max-width:900px;font-size:clamp(1.8rem,5vw,3.1rem);
+  line-height:1.25;color:#fff2c6;text-shadow:0 3px 25px #000;
+}
+.hero p{margin:0;color:#eadcc7;font-size:clamp(1rem,2vw,1.2rem)}
+.divider{display:flex;align-items:center;gap:12px;justify-content:center;margin:20px 0 0;color:var(--gold)}
+.divider:before,.divider:after{content:"";height:1px;width:min(150px,20vw);background:linear-gradient(90deg,transparent,var(--gold))}
+.divider:after{background:linear-gradient(90deg,var(--gold),transparent)}
+.content{padding:0 22px 30px}
+.info-strip{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:22px
+}
+.info{
+  padding:15px;border:1px solid var(--line);border-radius:18px;background:rgba(255,255,255,.055);
+  text-align:center
+}
+.info strong{display:block;color:var(--gold2);font-size:1.1rem}
+.info span{font-size:.82rem;color:var(--muted)}
+.toolbar{
+  display:flex;gap:10px;flex-wrap:wrap;margin-bottom:22px;
+  padding:12px;border:1px solid var(--line);border-radius:20px;background:rgba(0,0,0,.23)
+}
+.search-input,.filter-select{
+  min-height:48px;border:1px solid rgba(231,191,99,.24);border-radius:14px;
+  background:rgba(255,255,255,.08);color:#fff;padding:0 15px;outline:none;
+}
+.search-input{flex:1;min-width:220px}
+.filter-select{min-width:220px}
+.search-input::placeholder{color:#cbbda9}
+.filter-select option{color:#111}
+.section-title{
+  display:flex;align-items:center;gap:10px;margin:25px 0 15px;
+  color:var(--gold2);font-size:1.35rem;font-weight:700
+}
+.section-title:after{content:"";height:1px;flex:1;background:linear-gradient(90deg,var(--line),transparent)}
+.calendar-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px}
+.card{
+  position:relative;padding:20px;border-radius:22px;border:1px solid var(--line);
+  background:linear-gradient(145deg,rgba(255,255,255,.09),rgba(0,0,0,.22));
+  box-shadow:0 14px 38px rgba(0,0,0,.24);overflow:hidden;
+  transition:.25s ease;
+}
+.card:hover{transform:translateY(-3px);border-color:rgba(231,191,99,.48)}
+.card:before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--gold)}
+.card.available:before{background:#55c986}
+.card.booked:before{background:#e16b5f}
+.card.completed:before{background:#6ba5e5}
+.date-title{font-size:1.15rem;font-weight:700;color:#fff0c4;margin-bottom:9px}
+.badge{
+  display:inline-block;padding:6px 11px;border-radius:999px;font-size:.78rem;font-weight:700;
+  border:1px solid rgba(255,255,255,.12);margin-bottom:10px
+}
+.badge.available{background:rgba(45,138,88,.18);color:#9ff0c0}
+.badge.booked{background:rgba(184,58,50,.18);color:#ffaaa0}
+.badge.completed{background:rgba(69,118,174,.2);color:#b6d7ff}
+.info-text{color:#e7dccb;font-size:.93rem;line-height:1.65;margin:3px 0}
+.info-text strong{color:#fff0c4}
+.btn-book,.btn-complete,.btn-delete{
+  width:100%;border-radius:13px;padding:12px;border:1px solid transparent;margin-top:13px;font-weight:700
+}
+.btn-book{background:linear-gradient(135deg,#1e7549,#36a96d);color:#fff;box-shadow:0 10px 25px rgba(24,115,72,.22)}
+.btn-complete{background:linear-gradient(135deg,#2f6fa5,#173b5e);color:#fff}
+.btn-delete{background:rgba(184,58,50,.15);color:#ffaaa0;border-color:rgba(184,58,50,.35)}
+.empty{padding:30px;text-align:center;color:var(--muted)}
+.modal{
+  display:none;position:fixed;inset:0;z-index:1000;padding:15px;
+  background:rgba(0,0,0,.75);backdrop-filter:blur(14px);align-items:center;justify-content:center
+}
+.modal-content{
+  width:min(480px,100%);max-height:92vh;overflow:auto;padding:25px;border-radius:26px;
+  border:1px solid var(--line);background:linear-gradient(145deg,#21130a,#0e0804);
+  box-shadow:0 30px 90px #000
+}
+.modal-content h3{margin:0 0 5px;text-align:center;color:var(--gold2);font-size:1.5rem}
+.modal-date{text-align:center;color:var(--gold);font-weight:700;margin-bottom:18px}
+.modal-content label{display:block;margin:13px 0 6px;color:#eadcc7;font-weight:700;font-size:.9rem}
+.modal-content input,.modal-content textarea{
+  width:100%;padding:12px;border-radius:13px;border:1px solid rgba(231,191,99,.24);
+  background:rgba(255,255,255,.07);color:#fff;outline:none
+}
+.modal-content textarea{resize:vertical}
+.modal-actions{display:flex;gap:10px;margin-top:18px}
+.btn-cancel,.btn-submit{flex:1;padding:12px;border-radius:13px;border:1px solid var(--line);font-weight:700}
+.btn-cancel{background:rgba(255,255,255,.07);color:#eee}
+.btn-submit{background:linear-gradient(135deg,#9e681d,#e7bf63);color:#1b1006}
+.notice{
+  margin-top:15px;padding:12px;border:1px dashed rgba(231,191,99,.5);border-radius:14px;
+  background:rgba(231,191,99,.07);color:#f1d99c;text-align:center;font-size:.86rem
+}
+.footer{text-align:center;padding:20px;color:#bcae9b;font-size:.82rem;border-top:1px solid var(--line)}
+.sound-orb{
+  position:fixed;right:18px;bottom:18px;z-index:900;width:58px;height:58px;border-radius:50%;
+  border:1px solid var(--gold);background:rgba(20,12,7,.8);color:var(--gold2);
+  box-shadow:0 12px 35px rgba(0,0,0,.4),0 0 25px rgba(231,191,99,.15)
+}
+.welcome{
+  position:fixed;inset:0;z-index:2000;display:flex;align-items:center;justify-content:center;padding:20px;
+  background:linear-gradient(180deg,rgba(7,4,2,.9),rgba(18,9,3,.96)),url("temple-bg.jpg") center/cover;
+}
+.welcome-card{
+  width:min(470px,100%);text-align:center;padding:34px 25px;border-radius:30px;
+  border:1px solid var(--line);background:rgba(20,11,6,.74);backdrop-filter:blur(20px);
+  box-shadow:0 35px 100px #000
+}
+.welcome-card .small{color:var(--gold);font-size:.9rem}
+.welcome-card h2{color:#fff0c4;font-size:2rem;margin:10px 0}
+.welcome-card p{color:#ddcfbc;line-height:1.7}
+.enter-btn{
+  margin-top:12px;width:100%;padding:14px;border:0;border-radius:999px;
+  background:linear-gradient(135deg,#9e681d,#f2d27b);color:#1b1006;font-weight:700;font-size:1.05rem
+}
+@media(max-width:650px){
+  .page{width:calc(100% - 10px);margin:5px auto 25px}
+  .shell{border-radius:22px}
+  .topbar{align-items:flex-start}
+  .brand-mini span:last-child{display:none}
+  .hero{padding:30px 15px 25px}
+  .portrait-wrap{width:165px;height:165px}
+  .content{padding:0 12px 20px}
+  .info-strip{grid-template-columns:1fr}
+  .toolbar{padding:9px}
+  .search-input,.filter-select{width:100%;min-width:0}
+  .calendar-grid{grid-template-columns:1fr}
+}
+
+.upcoming-hero{
+  position:relative;overflow:hidden;margin:0 0 28px;border-radius:30px;
+  border:1px solid rgba(246,205,102,.72);
+  background:linear-gradient(145deg,rgba(31,13,4,.97),rgba(82,42,7,.88) 48%,rgba(18,7,2,.98));
+  box-shadow:0 28px 90px rgba(0,0,0,.62),inset 0 0 70px rgba(255,205,74,.07);
+}
+.upcoming-hero:before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 50% 0%,rgba(255,213,101,.22),transparent 34%),linear-gradient(180deg,transparent 55%,rgba(0,0,0,.3));pointer-events:none}
+.upcoming-hero:after{content:"ॐ";position:absolute;right:18px;top:10px;color:rgba(255,218,116,.18);font-size:7rem;line-height:1;pointer-events:none}
+.upcoming-inner{position:relative;z-index:2;padding:28px 24px 24px;text-align:center}
+.upcoming-kicker{display:inline-flex;align-items:center;gap:9px;padding:7px 15px;border-radius:999px;border:1px solid rgba(255,222,126,.55);background:rgba(255,194,51,.10);color:#ffe39a;font-size:.82rem;font-weight:800;letter-spacing:.8px;box-shadow:0 5px 25px rgba(0,0,0,.22)}
+.upcoming-kicker:before{content:"✦";color:#fff0ad}
+.upcoming-title{font-family:'Tiro Devanagari Marathi',serif;color:#fff0bd;font-size:clamp(1.65rem,6vw,2.45rem);line-height:1.2;margin:13px 0 4px;text-shadow:0 4px 24px #000}
+.upcoming-subtitle{color:#e7d2af;font-size:.86rem;margin:0 0 17px}
+.upcoming-photo{position:relative;width:145px;height:145px;margin:0 auto 19px;padding:6px;border-radius:50%;background:conic-gradient(#fff0ad,#b87817,#ffe28b,#8f5810,#fff0ad);box-shadow:0 0 0 2px rgba(255,235,161,.12),0 14px 42px rgba(0,0,0,.55),0 0 42px rgba(241,193,65,.23)}
+.upcoming-photo img{width:100%;height:100%;display:block;object-fit:cover;border-radius:50%;border:5px solid #291306}
+.upcoming-photo:after{content:"॥ गण गण गणात बोते ॥";position:absolute;left:50%;bottom:-24px;transform:translateX(-50%);white-space:nowrap;color:#e5c36d;font-size:.66rem;text-shadow:0 2px 8px #000}
+.upcoming-date-label{color:#e8cf9e;font-size:.8rem;margin-top:5px}
+.upcoming-date{display:inline-block;color:#fff;font-size:clamp(1.25rem,5vw,1.8rem);font-weight:800;margin:4px 0 5px;padding:7px 18px;border-radius:15px;background:rgba(0,0,0,.27);border:1px solid rgba(255,220,125,.25);box-shadow:inset 0 0 18px rgba(255,208,73,.05)}
+.upcoming-date span{color:#ffe082}
+.donor-line{margin:10px auto 0;color:#eadcc7;font-size:1rem;max-width:600px}
+.donor-line strong{color:#ffd86f}
+.donor-name{display:block;margin-top:3px;color:#fff4cf;font-size:1.12rem;font-weight:800}
+.upcoming-status{display:inline-block;margin-top:9px;padding:6px 12px;border-radius:999px;color:#ffd978;background:rgba(255,203,70,.09);border:1px solid rgba(255,215,111,.28);font-size:.75rem;font-weight:800}
+.share-row{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-top:18px}
+.share-btn{border:1px solid rgba(255,218,118,.55);background:rgba(255,255,255,.07);color:#ffe9a9;border-radius:14px;padding:11px 17px;font-weight:800;box-shadow:0 9px 24px rgba(0,0,0,.25);transition:.2s ease}
+.share-btn:hover{transform:translateY(-2px)}
+.share-btn.primary{background:linear-gradient(135deg,#9b5d0f,#f0c55b);color:#1d0d03;border-color:#ffe69b;box-shadow:0 10px 28px rgba(211,154,34,.28)}
+.upcoming-note{margin:17px auto 0;color:#d8c4a1;font-size:.78rem;max-width:650px;line-height:1.55}
+.completed-photo{width:100%;aspect-ratio:16/10;object-fit:cover;border-radius:15px;margin-top:12px;border:1px solid var(--line)}.photo-input{margin-top:8px;color:#d9c9b0;font-size:.8rem}
+
+/* Mobile-first temple background: the supplied temple image fills the phone viewport cleanly. */
+@media(max-width:650px){
+  body{background-attachment:scroll;background-position:center top;background-size:cover}
+  body:before{background:linear-gradient(180deg,rgba(4,2,1,.55),rgba(9,4,1,.86) 48%,rgba(7,3,1,.96))}
+  .page{width:calc(100% - 8px);margin:4px auto 25px}
+  .shell{border-radius:25px;background:rgba(12,6,2,.52)}
+  .topbar{padding:11px 12px}
+  .brand-mini span{font-size:.78rem}
+  .hero{padding:28px 14px 25px}
+  .portrait-wrap{width:155px;height:155px}
+  .hero h1{font-size:1.65rem}
+  .hero p{font-size:.9rem}
+  .content{padding:0 10px 22px}
+  .info-strip{grid-template-columns:1fr;gap:8px}
+  .upcoming-inner{padding:23px 14px 20px}
+  .upcoming-photo{width:125px;height:125px}
+  .upcoming-title{font-size:1.65rem}
+  .upcoming-date{font-size:1.22rem;padding:7px 12px}
+  .donor-name{font-size:1rem}
+  .share-btn{width:100%;max-width:310px}
+}
+</style>
+</head>
+
+<body>
+
+<!-- Browser autoplay policies may block audio. This first-entry screen gives one user gesture,
+     which reliably starts the supplied mantra on mobile browsers. -->
+<div class="welcome" id="welcomeScreen">
+  <div class="welcome-card">
+    <div class="small">॥ श्री गजानन महाराज ॥</div>
+    <h2>अन्नदान सेवा दालन</h2>
+    <p>श्री गजानन महाराज संस्थान वडशेद (जुने) यांच्या गुरुवार अन्नदान सेवेसाठी स्वागत.</p>
+    <button class="enter-btn" onclick="enterTemple()">🙏 नोंदणीसाठी प्रवेश करा</button>
+    <div style="margin-top:12px;color:#bcae9b;font-size:.78rem">प्रवेश करताच मंत्रध्वनी सुरू होईल.</div>
+  </div>
+</div>
+
+<audio id="mantraAudio" loop preload="auto">
+  <source src="gan_gan_ganat_bote.mp3" type="audio/mpeg">
+</audio>
+
+<button class="sound-orb" onclick="toggleMusic()" aria-label="मंत्रध्वनी">
+  <span id="musicIcon">🔇</span>
+</button>
+
+<div class="page">
+  <div class="shell">
+    <div class="topbar">
+      <div class="brand-mini">
+        <div class="brand-mark">ॐ</div>
+        <span>श्री गजानन महाराज संस्थान • वडशेद</span>
+      </div>
+      <div class="top-actions">
+        <button class="btn btn-gold" onclick="toggleMusic()">
+          <span id="musicText">मंत्रध्वनी</span>
+        </button>
+        <button id="toggleAdminBtn" class="btn btn-admin" onclick="toggleAdmin()">प्रशासक लॉगिन</button>
+      </div>
+    </div>
+
+    <section class="hero">
+      <div class="portrait-wrap">
+        <img src="gajanan.jpg" alt="श्री गजानन महाराज" class="portrait">
+      </div>
+      <div class="eyebrow">🪔 गुरुवार अन्नदान • डिजिटल सेवा</div>
+      <h1>॥ श्री गजानन महाराज संस्थान वडशेद (जुने) ॥</h1>
+      <p>गुरुवार अन्नदान सेवा • संकल्प नोंदणी दालन</p>
+      <div class="divider">ॐ</div>
+    </section>
+
+    <main class="content">
+      <div class="info-strip">
+        <div class="info"><strong>गुरुवार सेवा</strong><span>आपला अन्नदान संकल्प नोंदवा</span></div>
+        <div class="info"><strong>पारदर्शक नोंदणी</strong><span>उपलब्ध व नोंदणी झालेल्या तारखा पहा</span></div>
+        <div class="info"><strong>डिजिटल सुविधा</strong><span>नोंदणीनंतर WhatsApp माहिती</span></div>
+      </div>
+
+      <div class="toolbar">
+        <input type="text" id="searchInput" class="search-input" placeholder="🔍 नाव, फोन नंबर किंवा तारीख शोधा..." oninput="filterCalendar()">
+        <select id="filterSelect" class="filter-select" onchange="filterCalendar()">
+          <option value="all">सर्व आगामी गुरुवार</option>
+          <option value="available">रिक्त गुरुवार</option>
+          <option value="booked">नोंदणी झालेले</option>
+          <option value="past">मागील पूर्ण झालेल्या सेवा</option>
+        </select>
+      </div>
+
+      <div id="upcomingHero"></div>
+      <div id="sectionHeader" class="section-title">🗓 उपलब्ध / नोंदणी झालेल्या गुरुवार सेवा</div>
+      <div id="calendar" class="calendar-grid"><div class="empty">माहिती लोड होत आहे...</div></div>
+    </main>
+
+    <div class="footer">
+      🙏 श्री गजानन महाराज प्रसन्न • अन्नदान हीच श्रेष्ठ सेवा 🙏
+    </div>
+  </div>
+</div>
+
+<div id="bookingModal" class="modal">
+  <div class="modal-content">
+    <h3>अन्नदान सेवा संकल्प</h3>
+    <div id="modalDateDisplay" class="modal-date"></div>
+    <form id="bookingForm" onsubmit="submitBooking(event)">
+      <input type="hidden" id="selectedDate">
+
+      <label>अन्नदात्याचे पूर्ण नाव</label>
+      <input type="text" id="devoteeName" required placeholder="उदा. राजेश विठ्ठल पाटील">
+
+      <label>मोबाइल नंबर (WhatsApp)</label>
+      <input type="tel" id="phoneNumber" required pattern="[0-9]{10}" inputmode="numeric" placeholder="१० अंकी मोबाइल नंबर">
+
+      <label>अन्नदानाचा मेनू</label>
+      <textarea id="foodType" rows="3" required placeholder="उदा. पुरी भाजी, दाल खिचडी, शिरा"></textarea>
+
+      <div class="notice">
+        ✨ <strong>विशेष मान:</strong> गुरुवारी सकाळी ७:०० वाजता होणाऱ्या महाआरतीचे मुख्य मानकरी / यजमान आपण असाल.
+      </div>
+
+      <div class="modal-actions">
+        <button type="button" class="btn-cancel" onclick="closeModal()">रद्द करा</button>
+        <button type="submit" class="btn-submit">संकल्प नोंदवा</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script>
+const SUPABASE_URL = "https://tkftorwnoadfsvknldxw.supabase.co";
+const SUPABASE_KEY = "sb_publishable_5TGMP5zI5l4anJKhE5CxdQ_zqrHRCmC";
+const ADMIN_PASSWORD = "admin123";
+
+const GREEN_ID_INSTANCE = "710722741730";
+const GREEN_API_TOKEN = "cc09209b59c64b49babaed7d19ac0122e744af10ce8d47329f";
+const TEMPLE_GROUP_CHAT_ID = "120363413708644281@g.us";
+
+const db = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+let isAdmin = false;
+let allBookingsData = [];
+let audioStarted = false;
+
+function formatDateToMarathi(dateStr){
+  const dateObj = new Date(dateStr + "T00:00:00");
+  return dateObj.toLocaleDateString("mr-IN",{day:"numeric",month:"long",year:"numeric"});
+}
+
+function getThursdaysList(count=200){
+  const thursdays=[];
+  const date=new Date();
+  date.setHours(12,0,0,0);
+  while(date.getDay()!==4) date.setDate(date.getDate()+1);
+  for(let i=0;i<count;i++){
+    thursdays.push(
+      date.getFullYear()+"-"+String(date.getMonth()+1).padStart(2,"0")+"-"+String(date.getDate()).padStart(2,"0")
+    );
+    date.setDate(date.getDate()+7);
+  }
+  return thursdays;
+}
+
+async function loadCalendar(){
+  try{
+    const {data:bookings,error}=await db.from("thursday_bookings").select("*");
+    if(error){console.error(error); return;}
+    allBookingsData=bookings||[];
+    renderCalendar();
+    renderUpcomingHero();
+  }catch(e){console.error("Database connection error:",e);}
+}
+
+function safe(v){
+  return String(v??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]));
+}
+
+function renderCalendar(){
+  const calendarEl=document.getElementById("calendar");
+  const sectionHeader=document.getElementById("sectionHeader");
+  const searchVal=document.getElementById("searchInput").value.toLowerCase().trim();
+  const filterVal=document.getElementById("filterSelect").value;
+  const bookingMap={};
+  allBookingsData.forEach(b=>bookingMap[b.thursday_date]=b);
+
+  calendarEl.innerHTML="";
+  sectionHeader.innerText=filterVal==="past"?"📜 मागील पूर्ण झालेल्या सेवा":"🗓 आगामी अन्नदान सेवा";
+
+  let count=0;
+
+  if(filterVal==="past"){
+    allBookingsData.filter(b=>b.food_type && b.food_type.includes("[COMPLETED]")).forEach(booked=>{
+      const card=document.createElement("div");
+      card.className="card completed";
+      card.innerHTML=`
+        <div class="date-title">🗓 ${safe(formatDateToMarathi(booked.thursday_date))}</div>
+        <span class="badge completed">✅ सेवा पूर्ण झाली</span>
+        <div class="info-text"><strong>अन्नदाते:</strong> ${safe(booked.devotee_name)}</div>
+        <div class="info-text"><strong>मेनू:</strong> ${safe(booked.food_type.replace("[COMPLETED]",""))}</div>`;
+      calendarEl.appendChild(card); count++;
+    });
+    if(count===0) calendarEl.innerHTML='<div class="empty">कोणतीही मागील पूर्ण झालेली सेवा सापडली नाही.</div>';
+    return;
+  }
+
+  getThursdaysList(200).forEach(dateStr=>{
+    const booked=bookingMap[dateStr];
+    if(booked && booked.food_type && booked.food_type.includes("[COMPLETED]")) return;
+    if(filterVal==="available" && booked) return;
+    if(filterVal==="booked" && !booked) return;
+
+    const formattedDate=formatDateToMarathi(dateStr);
+    if(searchVal){
+      const match=formattedDate.toLowerCase().includes(searchVal)
+        ||(booked && String(booked.devotee_name).toLowerCase().includes(searchVal))
+        ||(booked && String(booked.phone_number).includes(searchVal));
+      if(!match) return;
+    }
+
+    const card=document.createElement("div");
+    card.className=`card ${booked?"booked":"available"}`;
+
+    if(booked){
+      card.innerHTML=`
+        <div class="date-title">🗓 ${safe(formattedDate)}</div>
+        <span class="badge booked">बुकिंग पूर्ण</span>
+        <div class="info-text"><strong>अन्नदाते:</strong> ${safe(booked.devotee_name)}</div>
+        <div class="info-text"><strong>मेनू:</strong> ${safe(booked.food_type)}</div>
+        ${isAdmin
+          ? `<div class="info-text"><strong>फोन:</strong> ${safe(booked.phone_number)}</div>
+             <button class="btn-complete" onclick="markServiceCompleted(${Number(booked.id)})">✨ सेवा पूर्ण झाली</button>
+             <button class="btn-delete" onclick="deleteBooking(${Number(booked.id)})">नोंदणी रद्द करा</button>`
+          : `<div class="info-text"><strong>फोन:</strong> ••••••••••</div>`}`;
+    }else{
+      card.innerHTML=`
+        <div class="date-title">🗓 ${safe(formattedDate)}</div>
+        <span class="badge available">🟢 रिक्त आहे</span>
+        <div class="info-text">या गुरुवारी अन्नदान सेवा संकल्पासाठी तारीख उपलब्ध आहे.</div>
+        <button class="btn-book" onclick="openModal('${dateStr}')">हे नाव नोंदवा</button>`;
+    }
+    calendarEl.appendChild(card); count++;
+  });
+
+  if(count===0) calendarEl.innerHTML='<div class="empty">तुमच्या शोधानुसार कोणताही डेटा उपलब्ध नाही.</div>';
+}
+
+
+function getNextThursdayDate(){
+  const d=new Date();
+  d.setHours(0,0,0,0);
+  const daysUntil=(4-d.getDay()+7)%7;
+  if(daysUntil===0 && new Date().getHours()>=20) d.setDate(d.getDate()+7);
+  else d.setDate(d.getDate()+daysUntil);
+  return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");
+}
+
+function renderUpcomingHero(){
+  const el=document.getElementById("upcomingHero");
+  if(!el)return;
+  const today=new Date(); today.setHours(0,0,0,0);
+  const b=allBookingsData
+    .filter(x=>x.thursday_date && !(x.food_type||"").includes("[COMPLETED]") && new Date(x.thursday_date+"T00:00:00")>=today)
+    .sort((a,c)=>a.thursday_date.localeCompare(c.thursday_date))[0];
+
+  const dateStr=b?.thursday_date || getNextThursdayDate();
+  const hasBooking=!!b;
+  const dateText=formatDateToMarathi(dateStr);
+  const donor=hasBooking ? safe(b.devotee_name) : "अन्नदाता होण्यासाठी आपले नाव नोंदवा";
+  const txt=hasBooking
+    ? `🛕 श्री गजानन महाराज संस्थान वडशेद (जुने)\n\n✨ गुरुवार विशेष अन्नदान सेवा\n🗓 ${dateText}\n👤 अन्नदाता: ${b.devotee_name}\n\n॥ गण गण गणात बोते ॥`
+    : `🛕 श्री गजानन महाराज संस्थान वडशेद (जुने)\n\n✨ आगामी गुरुवार विशेष अन्नदान सेवा\n🗓 ${dateText}\n\n🙏 अन्नदान सेवा संकल्पासाठी आपले नाव नोंदवा.\n॥ गण गण गणात बोते ॥`;
+
+  el.innerHTML=`<section class="upcoming-hero">
+    <div class="upcoming-inner">
+      <div class="upcoming-photo" aria-label="श्री गजानन महाराज">
+        <img src="gajanan.jpg" alt="श्री गजानन महाराज">
+      </div>
+      <div class="upcoming-kicker">✨ गुरुवार विशेष</div>
+      <h2 class="upcoming-title">अन्नदान सेवा</h2>
+      <p class="upcoming-subtitle">॥ श्री गजानन महाराज संस्थान वडशेद (जुने) ॥</p>
+      <div class="upcoming-date-label">पुढील गुरुवार</div>
+      <div class="upcoming-date">🗓 <span>${safe(dateText)}</span></div>
+      <div class="donor-line">👤 <strong>अन्नदाता</strong>
+        <span class="donor-name">${donor}</span>
+      </div>
+      ${hasBooking ? `<div class="upcoming-status">🙏 या गुरुवारची सेवा नोंदणी झाली आहे</div>` : `<div class="upcoming-status">🪔 ही तारीख अन्नदानासाठी उपलब्ध आहे</div>`}
+      <div class="share-row">
+        ${!hasBooking ? `<button class="share-btn primary" onclick="openModal('${dateStr}')">🙏 अन्नदान नोंदणी करा</button>` : ""}
+        <button class="share-btn" onclick='shareService(${JSON.stringify(txt)})'>📲 WhatsApp वर शेअर करा</button>
+      </div>
+      <div class="upcoming-note">अन्नदान हा सेवाभावाचा सुंदर संकल्प आहे. 🙏<br>॥ गण गण गणात बोते ॥</div>
+    </div>
+  </section>`;
+}
+
+async function shareService(text){try{if(navigator.share){await navigator.share({title:"श्री गजानन महाराज अन्नदान सेवा",text});return;}}catch(e){}window.open("https://wa.me/?text="+encodeURIComponent(text),"_blank");}
+
+function filterCalendar(){renderCalendar();renderUpcomingHero();}
+
+function toggleAdmin(){
+  if(!isAdmin){
+    const pwd=prompt("प्रशासक पासवर्ड टाका:");
+    if(pwd===ADMIN_PASSWORD){
+      isAdmin=true;
+      document.getElementById("toggleAdminBtn").innerText="लॉगआउट";
+      alert("प्रशासक मोड सुरू झाला आहे!");
+      renderCalendar();
+    }else if(pwd!==null) alert("चुकीचा पासवर्ड!");
+  }else{
+    isAdmin=false;
+    document.getElementById("toggleAdminBtn").innerText="प्रशासक लॉगिन";
+    renderCalendar();
+  }
+}
+
+function openModal(dateStr){
+  document.getElementById("selectedDate").value=dateStr;
+  document.getElementById("modalDateDisplay").innerText=formatDateToMarathi(dateStr);
+  document.getElementById("bookingModal").style.display="flex";
+}
+function closeModal(){
+  document.getElementById("bookingModal").style.display="none";
+  document.getElementById("bookingForm").reset();
+}
+
+async function submitBooking(event){
+  event.preventDefault();
+  const dateStr=document.getElementById("selectedDate").value;
+  const name=document.getElementById("devoteeName").value.trim();
+  const phone=document.getElementById("phoneNumber").value.trim();
+  const food=document.getElementById("foodType").value.trim();
+
+  // Extra client-side check to reduce accidental double booking.
+  const existing=allBookingsData.find(b=>b.thursday_date===dateStr && !(b.food_type||"").includes("[COMPLETED]"));
+  if(existing){alert("ही तारीख आधीच नोंदणी झालेली आहे."); closeModal(); loadCalendar(); return;}
+
+  const {error}=await db.from("thursday_bookings").insert([
+    {thursday_date:dateStr,devotee_name:name,phone_number:phone,food_type:food}
+  ]);
+
+  if(error){
+    alert("त्रुटी आली: "+error.message);
+  }else{
+    if(typeof confetti==="function") confetti({particleCount:120,spread:75,origin:{y:.6}});
+    alert("श्री गजानन महाराज प्रसन्न! तुमची नोंदणी यशस्वी झाली आहे.");
+    // Preserve the existing WhatsApp automation.
+    sendDirectWhatsAppGroupMessage(dateStr,name,phone,food);
+    closeModal();
+    loadCalendar();
+  }
+}
+
+async function deleteBooking(id){
+  if(confirm("ही नोंदणी डिलीट करायची का?")){
+    const {error}=await db.from("thursday_bookings").delete().eq("id",id);
+    if(error) alert("डिलीट करताना त्रुटी आली: "+error.message);
+    loadCalendar();
+  }
+}
+
+async function sendDirectWhatsAppGroupMessage(date,name,phone,food){
+  const formattedDate=formatDateToMarathi(date);
+  const groupMessageText=`🛕 *नवीन अन्नदान सेवा नोंदणी!*\n🗓 *दिनांक:* ${formattedDate}\n👤 *अन्नदाते:* ${name}\n📞 *संपर्क:* ${phone}\n🍱 *मेनू:* ${food}`;
+  const groupUrl=`https://api.green-api.com/waInstance${GREEN_ID_INSTANCE}/sendMessage/${GREEN_API_TOKEN}`;
+
+  let cleanPhone=phone.replace(/\D/g,"");
+  if(cleanPhone.length===10) cleanPhone="91"+cleanPhone;
+  const devoteeChatId=`${cleanPhone}@c.us`;
+
+  const devoteeMessageText=`जय गजानन! 🙏\n\n*श्री गजानन महाराज संस्थान वडशेद (जुने)*\n\nसादर प्रणाम *${name}* जी,\nतुमची गुरुवार अन्नदान सेवा नोंदणी यशस्वी झाली आहे! 🎉\n\n🗓 *दिनांक:* ${formattedDate}\n🍱 *मेनू:* ${food}\n🛕 *महाआरती:* गुरुवारी सकाळी ७:०० वाजता\n\n*(टीप: अन्नदानाच्या एक दिवस आधी बुधवारी तुम्हाला रिमाइंडर पाठवला जाईल.)*`;
+
+  try{
+    await fetch(groupUrl,{
+      method:"POST",
+      headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({chatId:TEMPLE_GROUP_CHAT_ID,message:groupMessageText})
+    });
+    await fetch(groupUrl,{
+      method:"POST",
+      headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({chatId:devoteeChatId,message:devoteeMessageText})
+    });
+  }catch(err){console.error("WhatsApp error:",err);}
+}
+
+async function markServiceCompleted(id){
+  const booking=allBookingsData.find(b=>b.id===id);
+  if(!booking) return;
+  if(confirm(`तुम्हाला ${booking.devotee_name} यांची सेवा पूर्ण झाली म्हणून चिन्हांकित करायचे आहे का?`)){
+    const {error}=await db.from("thursday_bookings")
+      .update({food_type:booking.food_type+" [COMPLETED]"}).eq("id",id);
+    if(error) alert("अपडेट करताना त्रुटी आली: "+error.message);
+    loadCalendar();
+  }
+}
+
+function setMusicUI(on){
+  document.getElementById("musicIcon").innerText=on?"🔊":"🔇";
+  document.getElementById("musicText").innerText=on?"मंत्रध्वनी सुरू आहे":"मंत्रध्वनी";
+}
+
+function startMusic(){
+  const audio=document.getElementById("mantraAudio");
+  return audio.play().then(()=>{
+    audioStarted=true; setMusicUI(true);
+  }).catch(()=>{setMusicUI(false);});
+}
+
+function enterTemple(){
+  document.getElementById("welcomeScreen").style.display="none";
+  startMusic();
+}
+
+function toggleMusic(){
+  const audio=document.getElementById("mantraAudio");
+  if(audio.paused){
+    startMusic();
+  }else{
+    audio.pause(); setMusicUI(false);
+  }
+}
+
+// If the visitor has already interacted with the page, attempt autoplay;
+// browsers may still block it, so the welcome screen remains the reliable path.
+window.addEventListener("load",()=>{
+  loadCalendar();
+  setTimeout(()=>{ if(!audioStarted) startMusic(); },400);
+});
+</script>
+</body>
+</html>
